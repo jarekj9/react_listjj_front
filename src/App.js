@@ -1,54 +1,35 @@
-import logo from './logo.svg';
 import "./styles.css";
 import './App.css';
-import Login from './Login'; 
-import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Logout from "./pages/Logout";
+import RouteGuard from "./components/RouteGuard";
+import { history } from './helpers/history';
 
 function App() {
-
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    fetch(`https://jsonplaceholder.typicode.com/posts?_limit=8`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(
-            `This is an HTTP error: The status is ${response.status}`
-          );
-        }
-        return response.json();
-      })
-      .then((actualData) => {
-        setData(actualData);
-        setError(null);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setData(null);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
+  
+  const Navigation = () => (
+    <nav>
+      <Link to="/home">Home</Link>
+      <Link to="/login">Login</Link>
+      <Link to="/logout">Logout</Link>
+    </nav>
+  );
 
   return (
-    <div className="App">
-      <Login />
-      <h1>API Posts</h1>
-      {loading && <div>A moment please...</div>}
-      {error && (
-        <div>{`There is a problem fetching the post data - ${error}`}</div>
-      )}
-      <ul>
-        {data &&
-          data.map(({ id, title }) => (
-            <li key={id}>
-              <h3>{title}</h3>
-            </li>
-          ))}
-      </ul>
+    <div className="App">      
+      <Router history={history}>
+      <Navigation />
+        <Routes>
+          <Route index element={<Home />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<RouteGuard component={<Home />} />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/logout" element={<Logout />} />
+          <Route path="*" element={<p>There's nothing here: 404!</p>} />
+        </Routes>
+      </Router>
     </div>
   );
 }
