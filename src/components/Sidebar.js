@@ -8,8 +8,8 @@ const SideBar = props => {
     <div className={sidebarClass}>
         <div className="container">
             <div className="row">
-                <div className="col align-content-end">
-                    <button onClick={props.toggleSidebar} className="btn btn-secondary sidebar-toggle mt-2">
+                <div className="col">
+                    <button onClick={props.toggleSidebar} className="btn btn-secondary sidebar-toggler">
                         <FontAwesomeIcon icon="bars" /> 
                     </button>
                 </div>

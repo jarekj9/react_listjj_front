@@ -7,6 +7,14 @@
     background-color: #36454f;
   }
 
+  .sidebar-toggler {
+    position: absolute;
+    height: 37px;
+    margin-top: 12px;
+    z-index: 1000;
+    top: 0;
+    left: 300px;
+  }
   .sidebar {
     position: absolute;
     top: 0px;
@@ -14,7 +22,7 @@
     height: 100%;
     width: 300px;
     transition: left 0.3s ease-in-out;
-    background-color: #536872;
+    background-color: #36454f;
   }
   .sidebar.sidebarOpen {
     left: 0;
@@ -38,8 +46,8 @@
     .sidebar {
         z-index: 999;
         position: absolute;
-        left: -70vw;
-        width: 70vw;
+        left: -300px;
+        width: 300px;
       }
       .sidebar.sidebarOpen {
         left: 0;
