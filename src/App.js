@@ -2,6 +2,7 @@ import "./styles.css";
 import './sidebarStyles.css';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Base from "./pages/Base";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
@@ -32,9 +33,8 @@ function App() {
     <div className="App">      
       <Router history={history}>
         <Routes>
-          <Route index element={<Home />} />
-          <Route path="/" element={<RouteGuard component={<Home />} />} />
-          <Route path="/home" element={<RouteGuard component={<Home />} />} />
+          <Route index element={<RouteGuard component={<Base component={Home} />} />} />
+          <Route path="/home" element={<RouteGuard component={<Base component={Home} />} />} />
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<RouteGuard component={<Logout />} />} />
           <Route path="*" element={<p>There's nothing here: 404!</p>} />

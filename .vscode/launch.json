@@ -1,12 +1,19 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-      {
-        "name": "Run Chrome",
-        "type": "chrome",
-        "request": "launch",
-        "url": "https://localhost:3000",
-        "webRoot": "${workspaceFolder}"
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch Chrome",
+      "type": "chrome",
+      "request": "launch",
+      "url": "https://localhost:3000",
+      "webRoot": "${workspaceFolder}",
+      "runtimeArgs": [
+        "--ignore-certificate-errors", // Example flag to ignore SSL certificate errors
+        "--disable-web-security" // Example flag to disable web security
+      ],
+      "sourceMapPathOverrides": {
+        "webpack:///src/*": "${webRoot}/*"
       }
-    ]
-  }
+    }
+  ]
+}

@@ -17,7 +17,7 @@ const SideBar = props => {
 
             <div className="row">
                 <div className="col">
-                        <AddNoteForm  />
+                        <AddNoteForm refresh={props.refresh} categoriesData={props.categoriesData} itemsData={props.ItemsData}  />
                 </div>
             </div>
 

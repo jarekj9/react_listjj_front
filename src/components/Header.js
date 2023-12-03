@@ -8,7 +8,6 @@ const Header = props => {
     const isLoggedIn = useSelector((state) => state.isLoggedIn);
     const Navigation = () => (
       <span className="header d-flex justify-content-start align-items-center">
-        {/* <button className="btn btn-secondary mx-3" onClick={props.onClick}><FontAwesomeIcon icon="bars" /> </button> */}
         {isLoggedIn && <Link className="btn btn-secondary ms-5" to="/home">Home</Link> }
         {isLoggedIn && <Link className="btn btn-secondary mx-3" to="/logout">Logout</Link> }
         {!isLoggedIn && <Link className="btn btn-secondary mx-3" to="/login">Login</Link> }
