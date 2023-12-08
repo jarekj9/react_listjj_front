@@ -1,10 +1,8 @@
 import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import api from '../ApiConfig';
-import { useNavigate } from 'react-router-dom';
 
 const ItemsTableRow = ({ key, refresh, onCheckboxClick, ...item }) => {
-    const navigate = useNavigate();
 
     const onDeleteClick = (id) => {
         const config = { headers: {'Content-Type': 'application/json'} };

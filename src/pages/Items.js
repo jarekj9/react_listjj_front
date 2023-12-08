@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ItemsTableRow from '../components/ItemsTableRow.js';
 
-const HomePage = (props) => {
+const Items = (props) => {
 
     const OnCheckboxClick = (id) => {
         const updatedItems = props.itemsData.map(item => {
@@ -15,7 +15,7 @@ const HomePage = (props) => {
 
     return(
         <div>
-            <h1>Home Page</h1>
+            <h1>Items Page</h1>
             {
                 <table className="table table-striped table-bordered">
                     <thead>
@@ -37,4 +37,4 @@ const HomePage = (props) => {
     );
 }
 
-export default HomePage;
+export default Items;

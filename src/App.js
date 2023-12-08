@@ -3,7 +3,7 @@ import './sidebarStyles.css';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Base from "./pages/Base";
-import Home from "./pages/Home";
+import Items from "./pages/Items";
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
 import RouteGuard from "./components/RouteGuard";
@@ -14,6 +14,7 @@ import { faCheckSquare, faBars, faTrash } from '@fortawesome/free-solid-svg-icon
 
 
 import { useDispatch } from 'react-redux';
+import Categories from "./pages/Categories";
 
 function App() {
 
@@ -33,8 +34,9 @@ function App() {
     <div className="App">      
       <Router history={history}>
         <Routes>
-          <Route index element={<RouteGuard component={<Base component={Home} />} />} />
-          <Route path="/home" element={<RouteGuard component={<Base component={Home} />} />} />
+          <Route index element={<RouteGuard component={<Base component={Items} />} />} />
+          <Route path="/items" element={<RouteGuard component={<Base component={Items} />} />} />
+          <Route path="/categories" element={<RouteGuard component={<Base component={Categories} />} />} />
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<RouteGuard component={<Logout />} />} />
           <Route path="*" element={<p>There's nothing here: 404!</p>} />
