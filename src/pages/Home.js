@@ -27,7 +27,7 @@ const HomePage = (props) => {
                     </thead>
                     <tbody>
                         {props.itemsData.map(item => (
-                            <ItemsTableRow key={item.id} {...item} onCheckboxClick={OnCheckboxClick} />
+                            <ItemsTableRow key={item.id} refresh={props.refresh} onCheckboxClick={OnCheckboxClick} {...item} />
                         ))}
 
                     </tbody>

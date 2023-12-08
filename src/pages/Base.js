@@ -3,7 +3,7 @@ import SideBar from '../components/Sidebar.js';
 import Header from '../components/Header.js';
 import api from '../ApiConfig.js';
 
-const listjjItems = async () => {
+const getListjjItems = async () => {
     const response = api.get('/api/item/items_by_userid')
         .then(({data }) => {
             console.log(data);
@@ -23,7 +23,7 @@ const listjjItems = async () => {
     return response;
 };
 
-const listjjCategories = async () => {
+const getListjjCategories = async () => {
     const response = api.get('/api/category/categories_by_userid')
         .then(({data }) => {
             console.log(data);
@@ -46,17 +46,17 @@ const listjjCategories = async () => {
 const BasePage = ({component: PageComponent}) => {
     const [itemsData, setItemsData] = useState([]);
     useEffect(() => {
-        listjjItems().then(items => setItemsData(items))
+        getListjjItems().then(items => setItemsData(items))
     }, []);
 
     const [categoriesData, setCategoriesData] = useState([]);
     useEffect(() => {
-        listjjCategories().then(categories => setCategoriesData(categories))
+        getListjjCategories().then(categories => setCategoriesData(categories))
     }, []);
 
     const refresh = () => {
-        listjjItems().then(items => setItemsData(items));
-        listjjCategories().then(categories => setCategoriesData(categories));
+        getListjjItems().then(items => setItemsData(items));
+        getListjjCategories().then(categories => setCategoriesData(categories));
     };
 
     const [sidebarOpen, setSideBarOpen] = useState(false);

@@ -10,14 +10,14 @@ import RouteGuard from "./components/RouteGuard";
 import { history } from './helpers/history';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faCheckSquare, faBars } from '@fortawesome/free-solid-svg-icons'
+import { faCheckSquare, faBars, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 
 import { useDispatch } from 'react-redux';
 
 function App() {
 
-  library.add(faCheckSquare, faBars)
+  library.add(faCheckSquare, faBars, faTrash)
 
   const dispatch = useDispatch();
   if(localStorage.getItem("token")){
