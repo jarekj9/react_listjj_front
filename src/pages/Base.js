@@ -68,9 +68,9 @@ const BasePage = ({component: PageComponent}) => {
 
     return(
         <div>
-            <SideBar isOpen={sidebarOpen} toggleSidebar={handleViewSidebar} categoriesData={categoriesData} refresh={refresh} />
+            <Header toggleSidebar={handleViewSidebar}/>
+            <SideBar isOpen={sidebarOpen} categoriesData={categoriesData} refresh={refresh} />
             <div className={contentClass}>
-                <Header onClick={handleViewSidebar} />
                 <PageComponent refresh={refresh} itemsData={itemsData} setItemsData={setItemsData} categoriesData={categoriesData} />
             </div>
         </div>

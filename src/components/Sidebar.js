@@ -13,14 +13,6 @@ const SideBar = props => {
         <div className="container">
             <div className="row">
                 <div className="col">
-                    <button onClick={props.toggleSidebar} className="btn btn-secondary sidebar-toggler">
-                        <FontAwesomeIcon icon="bars" /> 
-                    </button>
-                </div>
-            </div>
-
-            <div className="row">
-                <div className="col">
                         { (location.pathname === '/items' || location.pathname === '/') && 
                             <AddNoteForm refresh={props.refresh} categoriesData={props.categoriesData} itemsData={props.ItemsData}  /> }
                         { location.pathname === '/categories' && 

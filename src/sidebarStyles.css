@@ -7,17 +7,9 @@
     background-color: #36454f;
   }
 
-  .sidebar-toggler {
-    position: absolute;
-    height: 37px;
-    margin-top: 12px;
-    z-index: 1000;
-    top: 0;
-    left: 300px;
-  }
   .sidebar {
     position: absolute;
-    top: 0px;
+    top: 60px;
     left: -300px;
     height: 100%;
     width: 300px;
@@ -29,7 +21,7 @@
   }
   .content {
     position: absolute;
-    top: 0px;
+    top: 60px;
     left: 0;
     right: 0;
     height: 100%;
