@@ -59,7 +59,7 @@ const BasePage = ({component: PageComponent}) => {
         getListjjCategories().then(categories => setCategoriesData(categories));
     };
 
-    const [sidebarOpen, setSideBarOpen] = useState(false);
+    const [sidebarOpen, setSideBarOpen] = useState(true);
     const handleViewSidebar = () => {
         setSideBarOpen(!sidebarOpen);
     };
@@ -71,7 +71,7 @@ const BasePage = ({component: PageComponent}) => {
             <Header toggleSidebar={handleViewSidebar}/>
             <SideBar isOpen={sidebarOpen} categoriesData={categoriesData} refresh={refresh} />
             <div className={contentClass}>
-                <PageComponent refresh={refresh} itemsData={itemsData} setItemsData={setItemsData} categoriesData={categoriesData} />
+                <PageComponent refresh={refresh} categoriesData={categoriesData} itemsData={itemsData} setItemsData={setItemsData} />
             </div>
         </div>
     );

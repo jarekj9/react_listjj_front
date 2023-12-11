@@ -3,16 +3,6 @@ import ItemsTableRow from '../components/ItemsTableRow.js';
 
 const Items = (props) => {
 
-    const OnCheckboxClick = (id) => {
-        const updatedItems = props.itemsData.map(item => {
-            if (item.id === id) {
-                item.active = !item.active;
-            }
-            return item;
-        });
-        props.setItemsData(updatedItems);
-    }
-
     return(
         <div>
             <h1>Items Page</h1>
@@ -23,11 +13,12 @@ const Items = (props) => {
                             <th>Name</th>
                             <th>Value</th>
                             <th>Active</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         {props.itemsData.map(item => (
-                            <ItemsTableRow key={item.id} refresh={props.refresh} onCheckboxClick={OnCheckboxClick} {...item} />
+                            <ItemsTableRow key={item.id} refresh={props.refresh} categoriesData={props.categoriesData} itemsData={props.itemsData} setItemsData={props.setItemsData} {...item} />
                         ))}
 
                     </tbody>

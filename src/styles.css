@@ -37,4 +37,12 @@
     font-size: 1rem;
     line-height: 1.4;
   }
-  
+  /* Added by me: */
+  .text-mini {
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+  .full-width {
+    width: 100%;
+    box-sizing: border-box;
+  }
