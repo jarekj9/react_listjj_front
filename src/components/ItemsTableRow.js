@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import api from '../ApiConfig';
 
-const ItemsTableRow = ({ key, refresh, categoriesData, itemsData, setItemsData, ...item }) => {
+const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...item }) => {
 
     const [isEditMode, setIsEditMode] = useState(false);
 
@@ -66,7 +66,7 @@ const ItemsTableRow = ({ key, refresh, categoriesData, itemsData, setItemsData, 
     };
 
     return (
-        <tr onDoubleClick={editModeSwitch}>
+        <tr onDoubleClick={editModeSwitch} >
             {
                 isEditMode ?
                 (

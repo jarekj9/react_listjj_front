@@ -4,7 +4,6 @@ import CategoriesTableRow from '../components/CategoriesTableRow.js';
 const Categories = (props) => {
     return(
         <div>
-            <h1>Categories</h1>
             {
                 <table className="table table-striped table-bordered">
                     <thead>
