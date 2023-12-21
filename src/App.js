@@ -28,7 +28,6 @@ function App() {
     dispatch({type: 'LOGOUT'});
   }
 
-
   return (
     
     <div className="App">      

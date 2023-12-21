@@ -1,19 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext  } from 'react';
 import ItemsTableRow from '../components/ItemsTableRow.js';
+import AppContext from '../AppContext';
 
 const Items = (props) => {
 
-    const handleInputChange = (e) => {
+    const { categoryIdCtx, updateCategoryIdCtx } = useContext(AppContext);
+    
+    const [selectedCategoryId, setSelectedCategoryId] = useState(categoryIdCtx);
+
+    const onCategorySelected = (e) => {
+        updateCategoryIdCtx(e.target.value);
         setSelectedCategoryId(e.target.value);
     };
 
-    const [selectedCategoryId, setSelectedCategoryId] = useState(props.categoriesData.length > 0 ? props.categoriesData[0].id : "");
     const filteredItems = props.itemsData.filter(item => selectedCategoryId !== "" ? item.categoryId === selectedCategoryId : true);
 
     return(
         <div>
             <div>
-                <select id="categoryId" name="categoryId" value={selectedCategoryId} defaultValue={selectedCategoryId} className="form-control" onChange={handleInputChange}>
+                <select id="categoryId" name="categoryId" value={selectedCategoryId} defaultValue={selectedCategoryId} className="form-control" onChange={onCategorySelected}>
                     <option value="">All Categories</option>
                     {props.categoriesData && props.categoriesData.map((category) => <option key={category.id} value={category.id}>{category.name}</option>)}
                 </select>
@@ -22,7 +27,7 @@ const Items = (props) => {
                 <table className="table table-striped table-bordered">
                     <thead>
                         <tr>
-                            <th>Name</th>
+                            <th>Name{categoryIdCtx}</th>
                             <th>Value</th>
                             <th>Active</th>
                             <th>Action</th>
