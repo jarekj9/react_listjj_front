@@ -5,9 +5,24 @@ import api from '../ApiConfig';
 const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...item }) => {
 
     const [isEditMode, setIsEditMode] = useState(false);
+    const [isBlinking, setIsBlinking] = useState(false);
 
     const editModeSwitch = () => {
         setIsEditMode(!isEditMode);
+    };
+
+    const blinkRow = (times, speed) => {
+        let delay = 0;
+        for (let i = 0; i < times; i++) {
+            setTimeout(() => {
+                setIsBlinking(true);
+            }, delay);
+            delay += speed;
+            setTimeout(() => {
+                setIsBlinking(false);
+            }, delay);
+            delay += speed;
+        }
     };
     
     const move = (direction) => {
@@ -16,7 +31,9 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
         api.post(`/api/item/move?direction=${direction}`, requestData, config)
             .then((response) => {
                 console.log('Moved:', response);
+                blinkRow(3, 70);
                 refresh();
+                blinkRow(3, 70);
             })
             .catch(err => console.log(err));
     };
@@ -78,7 +95,7 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
     };
 
     return (
-        <tr onDoubleClick={editModeSwitch} >
+        <tr onDoubleClick={editModeSwitch} id={item.id}>
             {
                 isEditMode ?
                 (
@@ -105,10 +122,10 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
                 ):
                 (
                     <>
-                    <td>{item.name}<div className="text-mini">{item.description}</div></td>
-                    <td>{item.value}</td>
-                    <td><input type="checkbox" defaultChecked={item.active} onChange={() => OnCheckboxClick(item.id)} /></td>
-                    <td>
+                    <td className={isBlinking ? "blinkingRow" : ""}>{item.name}<div className="text-mini">{item.description}</div></td>
+                    <td className={isBlinking ? "blinkingRow" : ""}>{item.value}</td>
+                    <td className={isBlinking ? "blinkingRow" : ""}><input type="checkbox" defaultChecked={item.active} onChange={() => OnCheckboxClick(item.id)} /></td>
+                    <td className={isBlinking ? "blinkingRow" : ""}>
                         <button className="btn btn-sm btn-outline-danger px-1" onClick={() => onDeleteClick(item.id)}><FontAwesomeIcon icon="trash" /> </button>
                         <button className="btn btn-sm btn-outline-secondary px-1 ms-1" onClick={editModeSwitch}><FontAwesomeIcon icon="edit" /> </button>
                         <button className="btn btn-sm btn-outline-secondary px-1 ms-1" onClick={() => move("up")}><FontAwesomeIcon icon="arrow-up" /> </button>

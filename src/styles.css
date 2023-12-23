@@ -46,3 +46,7 @@
     width: 100%;
     box-sizing: border-box;
   }
+
+  .blinkingRow {
+    background-color: #696880 !important;
+  }
