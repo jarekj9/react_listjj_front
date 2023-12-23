@@ -10,6 +10,17 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
         setIsEditMode(!isEditMode);
     };
     
+    const move = (direction) => {
+        const config = { headers: {'Content-Type': 'application/json'} };
+        const requestData = item.id;
+        api.post(`/api/item/move?direction=${direction}`, requestData, config)
+            .then((response) => {
+                console.log('Moved:', response);
+                refresh();
+            })
+            .catch(err => console.log(err));
+    };
+
     const OnCheckboxClick = (id) => {
         const updatedItems = itemsData.map(item => {
             if (item.id === id) {
@@ -36,6 +47,7 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
     const Save = () => {
         const formDataToSend =  {
             id: item.id,
+            sequenceNumber: item.sequenceNumber,
             name: formData.name,
             description: formData.description,
             value: formData.value,
@@ -99,6 +111,8 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
                     <td>
                         <button className="btn btn-sm btn-outline-danger px-1" onClick={() => onDeleteClick(item.id)}><FontAwesomeIcon icon="trash" /> </button>
                         <button className="btn btn-sm btn-outline-secondary px-1 ms-1" onClick={editModeSwitch}><FontAwesomeIcon icon="edit" /> </button>
+                        <button className="btn btn-sm btn-outline-secondary px-1 ms-1" onClick={() => move("up")}><FontAwesomeIcon icon="arrow-up" /> </button>
+                        <button className="btn btn-sm btn-outline-secondary px-1 ms-1" onClick={() => move("down")}><FontAwesomeIcon icon="arrow-down" /> </button>
                     </td>
                     </>
                 )

@@ -10,7 +10,7 @@ import RouteGuard from "./components/RouteGuard";
 import { history } from './helpers/history';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faCheckSquare, faBars, faTrash, faEdit, faSave } from '@fortawesome/free-solid-svg-icons'
+import { faCheckSquare, faBars, faTrash, faEdit, faSave, faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons'
 
 
 import { useDispatch } from 'react-redux';
@@ -18,7 +18,7 @@ import Categories from "./pages/Categories";
 
 function App() {
 
-  library.add(faCheckSquare, faBars, faTrash, faEdit, faSave)
+  library.add(faCheckSquare, faBars, faTrash, faEdit, faSave, faArrowUp, faArrowDown)
 
   const dispatch = useDispatch();
   if(localStorage.getItem("token")){

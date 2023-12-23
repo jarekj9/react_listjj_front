@@ -10,6 +10,7 @@ const Items = (props) => {
     };
 
     const filteredItems = props.itemsData.filter(item => categoryIdCtx !== "" ? item.categoryId === categoryIdCtx : true);
+    const sortedItems = filteredItems.sort((a,b) => a.sequenceNumber - b.sequenceNumber)
 
     return(
         <div>
@@ -30,7 +31,7 @@ const Items = (props) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredItems.map(item => (
+                        {sortedItems.map(item => (
                             <ItemsTableRow key={item.id} refresh={props.refresh} categoriesData={props.categoriesData} itemsData={props.itemsData} setItemsData={props.setItemsData} {...item}/>
                         ))}
 

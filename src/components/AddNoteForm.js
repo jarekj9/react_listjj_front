@@ -44,7 +44,7 @@ const AddNoteForm = (props) => {
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="categoryid" className='d-flex text-light'>Category</label>
-                    <select id="categoryid" name="categoryid" defaultValue={categoryIdCtx} value={categoryIdCtx} className="form-control" onChange={handleChange}>
+                    <select id="categoryid" name="categoryid" value={categoryIdCtx} className="form-control" onChange={handleChange}>
                         <option value="">...</option>
                         {props.categoriesData && props.categoriesData.map((category) => <option key={category.id} value={category.id}>{category.name}</option>)}
                     </select>
