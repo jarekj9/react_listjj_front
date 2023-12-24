@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import api from '../ApiConfig';
+import TagsInput from './TagsInput';
+import AppContext from '../AppContext';
 
 const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...item }) => {
 
+    const { categoryIdCtx, updateCategoryIdCtx } = useContext(AppContext);
     const [isEditMode, setIsEditMode] = useState(false);
     const [isBlinking, setIsBlinking] = useState(false);
+    const [tags, setTags] = useState(item.tags ? item.tags : [])
 
     const editModeSwitch = () => {
         setIsEditMode(!isEditMode);
@@ -70,6 +74,7 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
             value: formData.value,
             categoryId: formData.categoryId,
             active: formData.active,
+            tags: tags
         };
         api.post('/api/item/addorupdate', formDataToSend)
             .then((response) => {
@@ -101,6 +106,7 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
                 (
                     <>
                     <td>
+                        {item.tags && item.tags.map((tag) => tag + " ")  }
                         <input className="full-width" type="text" name="name" defaultValue={item.name} onChange={handleInputChange} />
                         <div><textarea className="full-width" type="text" name="description" defaultValue={item.description} onChange={handleInputChange} /></div>
                         <div>
@@ -109,6 +115,7 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
                                 {categoriesData && categoriesData.map((category) => <option key={category.id} value={category.id}>{category.name}</option>)}
                             </select>
                         </div>
+                        <TagsInput tags={tags} setTags={setTags} />
                     </td>
                     <td><input className="full-width" type="text" name="value" defaultValue={item.value} onChange={handleInputChange} /></td>
                     <td><input className="full-width" type="checkbox" name="active" defaultChecked={item.active} onChange={handleInputChange} /></td>
@@ -122,14 +129,23 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
                 ):
                 (
                     <>
-                    <td className={isBlinking ? "blinkingRow" : ""}>{item.name}<div className="text-mini">{item.description}</div></td>
+                    <td className={isBlinking ? "blinkingRow" : ""}>
+                        {item.name}<div className="text-mini">{item.description} </div>
+                        {item.tags && item.tags.map((tag) => <span key={tag} className="badge bg-dark me-1">{tag}</span>)}
+                    </td>
                     <td className={isBlinking ? "blinkingRow" : ""}>{item.value}</td>
                     <td className={isBlinking ? "blinkingRow" : ""}><input type="checkbox" defaultChecked={item.active} onChange={() => OnCheckboxClick(item.id)} /></td>
                     <td className={isBlinking ? "blinkingRow" : ""}>
                         <button className="btn btn-sm btn-outline-danger px-1" onClick={() => onDeleteClick(item.id)}><FontAwesomeIcon icon="trash" /> </button>
                         <button className="btn btn-sm btn-outline-secondary px-1 ms-1" onClick={editModeSwitch}><FontAwesomeIcon icon="edit" /> </button>
-                        <button className="btn btn-sm btn-outline-secondary px-1 ms-1" onClick={() => move("up")}><FontAwesomeIcon icon="arrow-up" /> </button>
-                        <button className="btn btn-sm btn-outline-secondary px-1 ms-1" onClick={() => move("down")}><FontAwesomeIcon icon="arrow-down" /> </button>
+                        {categoryIdCtx && (
+                            <>
+                            <button className="btn btn-sm btn-outline-secondary px-1 ms-1" onClick={() => move("up")}><FontAwesomeIcon icon="arrow-up" /> </button>
+                            <button className="btn btn-sm btn-outline-secondary px-1 ms-1" onClick={() => move("down")}><FontAwesomeIcon icon="arrow-down" /> </button>
+                            </>
+                        )}
+
+
                     </td>
                     </>
                 )

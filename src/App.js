@@ -1,5 +1,6 @@
 import "./styles.css";
 import './sidebarStyles.css';
+import './tagsInputStyles.css';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Base from "./pages/Base";

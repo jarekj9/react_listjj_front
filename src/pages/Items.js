@@ -15,7 +15,7 @@ const Items = (props) => {
     return(
         <div>
             <div>
-                <select id="categoryId" name="categoryId" value={categoryIdCtx} defaultValue={categoryIdCtx} className="form-control" onChange={onCategorySelected}>
+                <select id="categoryId" name="categoryId" value={categoryIdCtx} className="form-control" onChange={onCategorySelected}>
                     <option value="">All Categories</option>
                     {props.categoriesData && props.categoriesData.map((category) => <option key={category.id} value={category.id}>{category.name}</option>)}
                 </select>
