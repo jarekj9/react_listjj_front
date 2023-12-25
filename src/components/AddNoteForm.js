@@ -2,9 +2,19 @@ import React, { useState, useContext } from 'react';
 import api from '../ApiConfig';
 import { useNavigate  } from 'react-router-dom';
 import AppContext from '../AppContext';
+import TagsInput from './TagsInput';
 
 const AddNoteForm = (props) => {
     const { categoryIdCtx, updateCategoryIdCtx } = useContext(AppContext);
+    const [formData, setFormData] = useState({
+        categoryid:'', 
+        name: '',
+        description: '',
+        tags: [],
+        value: 0,
+
+    });  
+    const [tags, setTags] = useState(formData.tags ? formData.tags : [])
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -29,15 +39,7 @@ const AddNoteForm = (props) => {
         if(e.target.name === 'categoryid') {
             updateCategoryIdCtx(e.target.value);
         }
-    };
-    
-    const [formData, setFormData] = useState({
-        categoryid:'', 
-        name: '',
-        description: '',
-        value: 0,
-
-    });   
+    }; 
 
     return (
         <div className=''>
@@ -52,6 +54,9 @@ const AddNoteForm = (props) => {
                 <div className="form-group">
                     <label htmlFor="name" className='d-flex text-light'>Name</label>
                     <input id="name" name="name" className="form-control" type="text" placeholder="..." onChange={handleChange} />
+                </div>
+                <div className="form-group">
+                    <TagsInput tags={tags} setTags={setTags} />
                 </div>
                 <div className="form-group">
                     <label htmlFor="description" className='d-flex text-light'>Description</label>

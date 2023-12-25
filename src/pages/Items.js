@@ -11,9 +11,18 @@ const Items = (props) => {
 
     const filteredItems = props.itemsData.filter(item => categoryIdCtx !== "" ? item.categoryId === categoryIdCtx : true);
     const sortedItems = filteredItems.sort((a,b) => a.sequenceNumber - b.sequenceNumber)
+    const handleFilterKeyPress = (e) => {
+        if(e.key === 'Enter') {
+            props.setSearchWords(e.target.value);
+            props.refresh();
+        }
+    };
 
     return(
         <div>
+            <div>
+                <input id="searchWords" name="searchWords" className="form-control" type="text" placeholder="filter words" onChange={e => props.setSearchWords(e.target.value)} onKeyUp={handleFilterKeyPress}></input>
+            </div>
             <div>
                 <select id="categoryId" name="categoryId" value={categoryIdCtx} className="form-control" onChange={onCategorySelected}>
                     <option value="">All Categories</option>

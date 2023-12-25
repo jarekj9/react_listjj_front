@@ -144,8 +144,6 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
                             <button className="btn btn-sm btn-outline-secondary px-1 ms-1" onClick={() => move("down")}><FontAwesomeIcon icon="arrow-down" /> </button>
                             </>
                         )}
-
-
                     </td>
                     </>
                 )

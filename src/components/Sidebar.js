@@ -14,7 +14,7 @@ const SideBar = props => {
             <div className="row">
                 <div className="col">
                         { (location.pathname === '/items' || location.pathname === '/') && 
-                            <AddNoteForm refresh={props.refresh} categoriesData={props.categoriesData} itemsData={props.ItemsData}  /> }
+                            <AddNoteForm refresh={props.refresh} categoriesData={props.categoriesData} setSideBarOpen={props.setSideBarOpen} itemsData={props.ItemsData}  /> }
                         { location.pathname === '/categories' && 
                             <AddCategoryForm refresh={props.refresh} categoriesData={props.categoriesData} itemsData={props.ItemsData}  /> }
                 </div>
