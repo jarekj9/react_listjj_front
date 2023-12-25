@@ -1,18 +1,12 @@
 .tags-input-container{
-  border-radius: 3px;
   width: 100%;
-  margin-top: 1em;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: .5em;
 }
 
 .tag-item{
-  background-color: rgb(218, 216, 216);
   display: inline-block;
-  padding: .5em .75em;
-  border-radius: 20px;
 }
 .tag-item .close{
   height: 20px;

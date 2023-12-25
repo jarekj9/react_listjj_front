@@ -115,7 +115,7 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
                                 {categoriesData && categoriesData.map((category) => <option key={category.id} value={category.id}>{category.name}</option>)}
                             </select>
                         </div>
-                        <TagsInput tags={tags} setTags={setTags} />
+                        <TagsInput tags={tags} setTags={setTags} edit={true} />
                     </td>
                     <td><input className="full-width" type="text" name="value" defaultValue={item.value} onChange={handleInputChange} /></td>
                     <td><input className="full-width" type="checkbox" name="active" defaultChecked={item.active} onChange={handleInputChange} /></td>
@@ -131,7 +131,7 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
                     <>
                     <td className={isBlinking ? "blinkingRow" : ""}>
                         {item.name}<div className="text-mini">{item.description} </div>
-                        {item.tags && item.tags.map((tag) => <span key={tag} className="badge bg-dark me-1">{tag}</span>)}
+                        <TagsInput tags={tags} setTags={setTags} edit={false} />
                     </td>
                     <td className={isBlinking ? "blinkingRow" : ""}>{item.value}</td>
                     <td className={isBlinking ? "blinkingRow" : ""}><input type="checkbox" defaultChecked={item.active} onChange={() => OnCheckboxClick(item.id)} /></td>
