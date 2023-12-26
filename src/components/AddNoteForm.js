@@ -6,15 +6,15 @@ import TagsInput from './TagsInput';
 
 const AddNoteForm = (props) => {
     const { categoryIdCtx, updateCategoryIdCtx } = useContext(AppContext);
+    const [tags, setTags] = useState([])
     const [formData, setFormData] = useState({
         categoryid:'', 
         name: '',
         description: '',
         tags: [],
         value: 0,
-
+        tags: [],
     });  
-    const [tags, setTags] = useState(formData.tags ? formData.tags : [])
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -24,6 +24,7 @@ const AddNoteForm = (props) => {
             return;
         }
         formData.categoryid = categoryIdCtx;
+        formData.tags = tags;
         api.post('/api/item/addorupdate', formData)
             .then((response) => {
                 console.log('Item created successfully:', response.data);
@@ -43,7 +44,7 @@ const AddNoteForm = (props) => {
 
     return (
         <div className=''>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()}>
                 <div className="form-group">
                     <label htmlFor="categoryid" className='d-flex text-light'>Category</label>
                     <select id="categoryid" name="categoryid" value={categoryIdCtx} className="form-control" onChange={handleChange}>
@@ -55,8 +56,8 @@ const AddNoteForm = (props) => {
                     <label htmlFor="name" className='d-flex text-light'>Name</label>
                     <input id="name" name="name" className="form-control" type="text" placeholder="..." onChange={handleChange} />
                 </div>
-                <div className="form-group">
-                    <TagsInput tags={tags} setTags={setTags} />
+                <div className="form-group pt-2">
+                    <TagsInput tags={tags} setTags={setTags} edit={true} />
                 </div>
                 <div className="form-group">
                     <label htmlFor="description" className='d-flex text-light'>Description</label>
