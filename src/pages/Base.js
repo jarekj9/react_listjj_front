@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import SideBar from '../components/Sidebar.js';
 import Header from '../components/Header.js';
+import OutSideSidebarClick from '../components/OutsideSideBarClick.js';
 import api from '../ApiConfig.js';
 import AppContext from '../AppContext';
 
@@ -69,11 +70,21 @@ const BasePage = ({component: PageComponent}) => {
 
 
     const contentClass = sidebarOpen ? "content sidebarOpen" : "content";
-
+    const sideBarRef = useRef(null);
+    function closeSideBarOnMobile() {
+        if(window.innerWidth < 768) {
+            setSideBarOpen(true); //reversed logic on mobile
+        }
+    }
+    const outsideSidebarClick = OutSideSidebarClick(sideBarRef, closeSideBarOnMobile);
+    
     return(
         <div>
             <Header toggleSidebar={handleViewSidebar}/>
-            <SideBar isOpen={sidebarOpen} setSideBarOpen={setSideBarOpen} categoriesData={categoriesData} refresh={refresh} />
+            <div ref={sideBarRef}>
+                <SideBar isOpen={sidebarOpen} setSideBarOpen={setSideBarOpen} categoriesData={categoriesData} refresh={refresh} />
+            </div>
+
             <div className={contentClass}>
                 <PageComponent refresh={refresh} setSearchWords={setSearchWords} categoriesData={categoriesData} itemsData={itemsData} setItemsData={setItemsData} />
             </div>
