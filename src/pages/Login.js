@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
+import api from '../ApiConfig.js';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 const handleLogin = async () => {
-    const loginUrl = 'https://localhost:5001/api/login';
+    const loginUrl = '/api/login';
     const loginData = { 'Email': email, 'Password': password };
     const headers = {'Content-Type': 'application/json;charset=UTF-8', 'Accept': 'application/json'}
-    const response = axios.post(loginUrl, loginData, headers)
+    const response = api.post(loginUrl, loginData, headers)
         .then(({data }) => {
             console.log('Login successful! Token:', data.token);
             localStorage.setItem("token", data.token);
@@ -27,19 +28,14 @@ const handleLogin = async () => {
         </div>    
       <div className="card-body">
           <div className="d-flex flex-row justify-content-center">
-            <div className="d-flex flex-column justify-content-center">
-              <div className="p-2 align-self-start">
-                <label>Email:</label>
-              </div>
-              <div className="p-2 align-self-start">
-                <label>Password:</label>
-              </div>
-            </div>
+
             <div className="d-flex flex-column">
-            <div className="p-2">
+              <div className="p-2">
+                <label className="d-flex align-self-start text-secondary">Email:</label>
                 <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
               </div>
               <div className="p-2">
+              <label className="d-flex align-self-start text-secondary">Password:</label>
                 <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
               </div>
             </div>

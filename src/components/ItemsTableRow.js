@@ -10,6 +10,41 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
     const [isEditMode, setIsEditMode] = useState(false);
     const [isBlinking, setIsBlinking] = useState(false);
     const [tags, setTags] = useState(item.tags ? item.tags : [])
+    const [file, setFile] = useState(null);
+
+    const convertToBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+          const fileReader = new FileReader();
+          fileReader.readAsDataURL(file);
+          fileReader.onload = () => {
+            resolve(fileReader.result);
+          };
+          fileReader.onerror = (error) => {
+            reject(error);
+          };
+        });
+      };
+
+    const handleFileChange = async (e) => {
+        if (!e.target.files) {
+          return;
+        }
+        const selectedFile = e.target.files[0];
+        setFile(selectedFile);
+        const config = { headers: {'Content-Type': 'application/json; charset=utf-8', 'content-length': `${selectedFile.size}`} };
+        const fileB64 = (await convertToBase64(selectedFile)).split(',')[1]; // remove prefix like: data:application/octet-stream;base64,
+        const requestData = {
+            ListItemId: item.id,
+            Name: selectedFile.name,
+            Size: selectedFile.size,
+            B64Bytes: fileB64
+        };
+        api.post('/api/file/add', requestData, config)
+            .then((response) => {
+                console.log('File uploaded successfully:', response.data);
+                refresh();
+            });
+    };
 
     const editModeSwitch = () => {
         setIsEditMode(!isEditMode);
@@ -29,7 +64,7 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
         }
     };
     
-    const move = (direction) => {
+    const onMoveItemClick = (direction) => {
         const config = { headers: {'Content-Type': 'application/json'} };
         const requestData = item.id;
         api.post(`/api/item/move?direction=${direction}`, requestData, config)
@@ -42,7 +77,7 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
             .catch(err => console.log(err));
     };
 
-    const OnCheckboxClick = (id) => {
+    const onCheckboxClick = (id) => {
         const updatedItems = itemsData.map(item => {
             if (item.id === id) {
                 item.active = !item.active;
@@ -84,7 +119,7 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
             .catch(err => console.log(err));
     };
 
-    const SaveAndExitEdit = () => {
+    const onSaveAndExitEditClick = () => {
         Save();
         editModeSwitch();
     };
@@ -116,13 +151,15 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
                             </select>
                         </div>
                         <TagsInput tags={tags} setTags={setTags} edit={true} />
+                        {item.files && item.files.map((file) => <span key={file.id}>{file.name} </span>)}
+                        <input type="file" name="fileInput" onChange={handleFileChange}/>
                     </td>
                     <td><input className="full-width" type="text" name="value" defaultValue={item.value} onChange={handleInputChange} /></td>
                     <td><input className="full-width" type="checkbox" name="active" defaultChecked={item.active} onChange={handleInputChange} /></td>
                     <td>
                         <button className="btn btn-sm btn-outline-danger px-1" onClick={() => onDeleteClick(item.id)}><FontAwesomeIcon icon="trash" /> </button>
                         <button className="btn btn-sm btn-outline-secondary px-1 ms-1" onClick={editModeSwitch}><FontAwesomeIcon icon="edit" /> </button>
-                        <button className="btn btn-sm btn-outline-primary px-1 ms-1" onClick={SaveAndExitEdit}><FontAwesomeIcon icon="save" /> </button>
+                        <button className="btn btn-sm btn-outline-primary px-1 ms-1" onClick={onSaveAndExitEditClick}><FontAwesomeIcon icon="save" /> </button>
                     </td>
                     </>
 
@@ -132,16 +169,17 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
                     <td className={isBlinking ? "blinkingRow" : ""}>
                         {item.name}<div className="text-mini">{item.description} </div>
                         <TagsInput tags={tags} setTags={setTags} edit={false} />
+                        {item.files && item.files.map((file) => <span key={file.id}>{file.name} </span>)}
                     </td>
                     <td className={isBlinking ? "blinkingRow" : ""}>{item.value}</td>
-                    <td className={isBlinking ? "blinkingRow" : ""}><input type="checkbox" defaultChecked={item.active} onChange={() => OnCheckboxClick(item.id)} /></td>
+                    <td className={isBlinking ? "blinkingRow" : ""}><input type="checkbox" defaultChecked={item.active} onChange={() => onCheckboxClick(item.id)} /></td>
                     <td className={isBlinking ? "blinkingRow" : ""}>
                         <button className="btn btn-sm btn-outline-danger px-1" onClick={() => onDeleteClick(item.id)}><FontAwesomeIcon icon="trash" /> </button>
                         <button className="btn btn-sm btn-outline-secondary px-1 ms-1" onClick={editModeSwitch}><FontAwesomeIcon icon="edit" /> </button>
                         {categoryIdCtx && (
                             <>
-                            <button className="btn btn-sm btn-outline-secondary px-1 ms-1" onClick={() => move("up")}><FontAwesomeIcon icon="arrow-up" /> </button>
-                            <button className="btn btn-sm btn-outline-secondary px-1 ms-1" onClick={() => move("down")}><FontAwesomeIcon icon="arrow-down" /> </button>
+                            <button className="btn btn-sm btn-outline-secondary px-1 ms-1" onClick={() => onMoveItemClick("up")}><FontAwesomeIcon icon="arrow-up" /> </button>
+                            <button className="btn btn-sm btn-outline-secondary px-1 ms-1" onClick={() => onMoveItemClick("down")}><FontAwesomeIcon icon="arrow-down" /> </button>
                             </>
                         )}
                     </td>

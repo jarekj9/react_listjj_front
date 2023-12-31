@@ -45,6 +45,9 @@ const AddNoteForm = (props) => {
     return (
         <div className=''>
             <form onSubmit={handleSubmit} onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()}>
+                <div className="d-flex mb-2">
+                    <button className="btn btn-secondary" type="submit">Add Note</button>
+                </div>
                 <div className="form-group">
                     <label htmlFor="categoryid" className='d-flex text-light'>Category</label>
                     <select id="categoryid" name="categoryid" value={categoryIdCtx} className="form-control" onChange={handleChange}>
@@ -66,9 +69,6 @@ const AddNoteForm = (props) => {
                 <div className="form-group">
                     <label htmlFor="value" className='d-flex text-light'>Value</label>
                     <input id="value" name="value" defaultValue="0" className="form-control" type="number" placeholder="..." onChange={handleChange} />
-                </div>
-                <div className="form-group my-4">
-                    <button className="btn btn-secondary" type="submit">Add Note</button>
                 </div>
             </form>
         </div>

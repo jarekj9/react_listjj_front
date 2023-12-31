@@ -67,7 +67,7 @@ const TagsInput = (props) =>{
                 ""
             ))}
             { props.edit && 
-                <input onKeyDown={handleKeyDown} type="text" className="tags-input" placeholder="Add tags" />
+                <input onKeyDown={handleKeyDown} type="text" className="tags-input" placeholder="add tags" />
             }
         </div>
     )

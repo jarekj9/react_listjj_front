@@ -13,7 +13,8 @@
       ],
       "sourceMapPathOverrides": {
         "webpack:///src/*": "${webRoot}/*"
-      }
+      },
+      //"preLaunchTask": "npm: start-https-cert",
     }
   ]
 }

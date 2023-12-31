@@ -29,6 +29,9 @@ const AddCategoryForm = (props) => {
     return (
         <div className=''>
             <form onSubmit={handleSubmit}>
+                <div className="d-flex mb-2">
+                    <button className="btn btn-secondary" type="submit">Add Category</button>
+                </div>
                 <div className="form-group">
                     <label htmlFor="name" className='d-flex text-light'>Name</label>
                     <input id="name" name="name" className="form-control" type="text" placeholder="..." onChange={handleChange} />
@@ -36,9 +39,6 @@ const AddCategoryForm = (props) => {
                 <div className="form-group">
                     <label htmlFor="description" className='d-flex text-light'>Description</label>
                     <textarea id="description" name="description" className="form-control" type="text" rows='4' placeholder="..." onChange={handleChange} />
-                </div>
-                <div className="form-group my-4">
-                    <button className="btn btn-secondary" type="submit">Add Category</button>
                 </div>
             </form>
         </div>
