@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext  } from 'react';
 import ItemsTableRow from '../components/ItemsTableRow.js';
 import AppContext from '../AppContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Items = (props) => {
 
@@ -20,8 +21,9 @@ const Items = (props) => {
 
     return(
         <div>
-            <div>
+            <div className="d-flex">
                 <input id="searchWords" name="searchWords" className="form-control" type="text" placeholder="filter words" onChange={e => props.setSearchWords(e.target.value)} onKeyUp={handleFilterKeyPress}></input>
+                <button className="btn btn-secondary" onClick={props.refresh}><FontAwesomeIcon icon="magnifying-glass" /></button>
             </div>
             <div>
                 <select id="categoryId" name="categoryId" value={categoryIdCtx} className="form-control" onChange={onCategorySelected}>

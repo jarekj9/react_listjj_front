@@ -31,7 +31,6 @@ const BasePage = ({component: PageComponent}) => {
     const getListjjItems = async () => {
         const response = api.get(`/api/item/items_by_filter?searchWords=${searchWords ?? ' '}&fromDateStr=${' '}&toDateStr=${' '}&categoryId=${categoryIdCtx}`)
             .then(({data }) => {
-                console.log(data);
                 return data;
             })
             .catch(error => {
@@ -51,7 +50,6 @@ const BasePage = ({component: PageComponent}) => {
     const getListjjCategories = async () => {
         const response = api.get('/api/category/categories_by_userid')
             .then(({data }) => {
-                console.log(data);
                 return data;
             })
             .catch(error => {

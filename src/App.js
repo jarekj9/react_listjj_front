@@ -8,10 +8,10 @@ import Items from "./pages/Items";
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
 import RouteGuard from "./components/RouteGuard";
-import { history } from './helpers/history';
+import { history } from './helpers/History';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faCheckSquare, faBars, faTrash, faEdit, faSave, faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons'
+import { faCheckSquare, faBars, faTrash, faEdit, faSave, faArrowUp, faArrowDown, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 
 
 import { useDispatch } from 'react-redux';
@@ -19,7 +19,7 @@ import Categories from "./pages/Categories";
 
 function App() {
 
-  library.add(faCheckSquare, faBars, faTrash, faEdit, faSave, faArrowUp, faArrowDown)
+  library.add(faCheckSquare, faBars, faTrash, faEdit, faSave, faArrowUp, faArrowDown, faMagnifyingGlass)
 
   const dispatch = useDispatch();
   if(localStorage.getItem("token")){

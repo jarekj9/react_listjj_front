@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import api from '../ApiConfig';
 import TagsInput from './TagsInput';
 import AppContext from '../AppContext';
+import { fileToB64, b64ToFile } from '../helpers/Data\Convert';
 
 const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...item }) => {
 
@@ -12,19 +13,6 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
     const [tags, setTags] = useState(item.tags ? item.tags : [])
     const [file, setFile] = useState(null);
 
-    const convertToBase64 = (file) => {
-        return new Promise((resolve, reject) => {
-          const fileReader = new FileReader();
-          fileReader.readAsDataURL(file);
-          fileReader.onload = () => {
-            resolve(fileReader.result);
-          };
-          fileReader.onerror = (error) => {
-            reject(error);
-          };
-        });
-      };
-
     const handleFileChange = async (e) => {
         if (!e.target.files) {
           return;
@@ -32,7 +20,7 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
         const selectedFile = e.target.files[0];
         setFile(selectedFile);
         const config = { headers: {'Content-Type': 'application/json; charset=utf-8', 'content-length': `${selectedFile.size}`} };
-        const fileB64 = (await convertToBase64(selectedFile)).split(',')[1]; // remove prefix like: data:application/octet-stream;base64,
+        const fileB64 = (await fileToB64(selectedFile)).split(',')[1]; // remove prefix like: data:application/octet-stream;base64,
         const requestData = {
             ListItemId: item.id,
             Name: selectedFile.name,
@@ -41,9 +29,22 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
         };
         api.post('/api/file/add', requestData, config)
             .then((response) => {
-                console.log('File uploaded successfully:', response.data);
                 refresh();
             });
+    };
+
+    const onFileDownloadCLick = (fileId) => {
+    api.get('api/file/get_by_id', { params: { id: fileId } })
+        .then((response) => {
+          const fileB64 = response.data.b64Bytes;
+        const file = b64ToFile(fileB64, response.data.name);
+        const url = window.URL.createObjectURL(file);
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', response.data.name);
+        document.body.appendChild(link);
+        link.click();
+        });
     };
 
     const editModeSwitch = () => {
@@ -69,7 +70,6 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
         const requestData = item.id;
         api.post(`/api/item/move?direction=${direction}`, requestData, config)
             .then((response) => {
-                console.log('Moved:', response);
                 blinkRow(3, 70);
                 refresh();
                 blinkRow(3, 70);
@@ -94,7 +94,6 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
         const requestData = id;
         api.post('/api/item/delete', requestData, config)
             .then((response) => {
-                console.log('Deleted:', response);
                 refresh();
             })
             .catch(err => console.log(err));
@@ -113,7 +112,6 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
         };
         api.post('/api/item/addorupdate', formDataToSend)
             .then((response) => {
-                console.log('Item updated successfully:', response.data);
                 refresh();
             })
             .catch(err => console.log(err));
@@ -151,7 +149,7 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
                             </select>
                         </div>
                         <TagsInput tags={tags} setTags={setTags} edit={true} />
-                        {item.files && item.files.map((file) => <span key={file.id}>{file.name} </span>)}
+                        {item.files && item.files.map((file) => <a href="#" key={file.id} onClick={() => onFileDownloadCLick(file.id)}>{file.name} </a>)}
                         <input type="file" name="fileInput" onChange={handleFileChange}/>
                     </td>
                     <td><input className="full-width" type="text" name="value" defaultValue={item.value} onChange={handleInputChange} /></td>
@@ -169,7 +167,7 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
                     <td className={isBlinking ? "blinkingRow" : ""}>
                         {item.name}<div className="text-mini">{item.description} </div>
                         <TagsInput tags={tags} setTags={setTags} edit={false} />
-                        {item.files && item.files.map((file) => <span key={file.id}>{file.name} </span>)}
+                        {item.files && item.files.map((file) => <a href="#" key={file.id} onClick={() => onFileDownloadCLick(file.id)}>{file.name} </a>)}
                     </td>
                     <td className={isBlinking ? "blinkingRow" : ""}>{item.value}</td>
                     <td className={isBlinking ? "blinkingRow" : ""}><input type="checkbox" defaultChecked={item.active} onChange={() => onCheckboxClick(item.id)} /></td>
