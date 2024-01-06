@@ -3,16 +3,28 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const TagsInput = (props) =>{
 
-    function handleKeyDown(e){
-        if(e.key !== 'Enter') return
-        const value = e.target.value
-        if(!value.trim()) return
-        props.setTags([...props.tags, value])
-        e.target.value = ''
-    }
+    const [tagsInput, setTagsInput] = useState('');
 
-    function removeTag(index){
-        props.setTags(props.tags.filter((el, i) => i !== index))
+    function onInputKeyDown(e) {
+        if (e.key !== ' ' && e.key !== 'Spacebar') return;
+        setTagsInput(e.target.value)
+        const text = e.target.value;
+        if(!text.trim()) return;
+        props.setTags([...props.tags, text]);
+        setTagsInput('');
+    }
+    function onInputChange(e) {
+        setTagsInput(e.target.value);
+    };
+
+    function onButtonClick(e) {
+        if(!tagsInput.trim()) return;
+        props.setTags([...props.tags, tagsInput]);
+        setTagsInput('');
+    };
+
+    function removeTag(index) {
+        props.setTags(props.tags.filter((el, i) => i !== index));
     }
 
     function getColorFromString(word) {
@@ -56,7 +68,7 @@ const TagsInput = (props) =>{
         <div className="tags-input-container">
             { props.tags.map((tag, index) => ( tag !== "" ?
                 <div className="tag-item" key={index}>
-                    <span class="badge m-1" style={tagStyle(tag)}>
+                    <span className="badge m-1" style={tagStyle(tag)}>
                         {tag}
                         { props.edit &&
                             <a href="#" style={tagHrefStyle(tag)} onClick={() => removeTag(index)}><FontAwesomeIcon className="ms-1" icon="trash" /></a>
@@ -67,7 +79,10 @@ const TagsInput = (props) =>{
                 ""
             ))}
             { props.edit && 
-                <input onKeyDown={handleKeyDown} type="text" className="tags-input" placeholder="add tags" />
+                <>
+                <input onKeyDown={onInputKeyDown} onChange={onInputChange} value={tagsInput} type="text" className="tags-input" placeholder="add tags" />
+                <button className="btn btn-sm btn-outline-primary" onClick={onButtonClick}><FontAwesomeIcon icon="plus" /></button>
+                </>
             }
         </div>
     )
