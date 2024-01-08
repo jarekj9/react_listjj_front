@@ -4,6 +4,7 @@ import api from '../ApiConfig';
 import TagsInput from './TagsInput';
 import AppContext from '../AppContext';
 import { fileToB64, b64ToFile } from '../helpers/Data\Convert';
+import { toast } from 'react-toastify'; 
 
 const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...item }) => {
 
@@ -20,7 +21,7 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
         const selectedFile = e.target.files[0];
         setFile(selectedFile);
         const config = { headers: {'Content-Type': 'application/json; charset=utf-8', 'content-length': `${selectedFile.size}`} };
-        const fileB64 = (await fileToB64(selectedFile)).split(',')[1]; // remove prefix like: data:application/octet-stream;base64,
+        const fileB64 = (await fileToB64(selectedFile)).split(',')[1]; // removes prefix that looks like: data:application/octet-stream;base64,
         const requestData = {
             ListItemId: item.id,
             Name: selectedFile.name,
@@ -95,6 +96,7 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
         api.post('/api/item/delete', requestData, config)
             .then((response) => {
                 refresh();
+                toast.success(`Deleted ${item.name}`, {autoClose: 1000 });
             })
             .catch(err => console.log(err));
     };
@@ -113,8 +115,12 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
         api.post('/api/item/addorupdate', formDataToSend)
             .then((response) => {
                 refresh();
+                toast.success('Updated', {autoClose: 1000 });
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                console.log(err);
+                toast.error('Error');
+            });
     };
 
     const onSaveAndExitEditClick = () => {

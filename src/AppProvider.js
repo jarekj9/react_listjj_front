@@ -4,9 +4,7 @@ import { useCookies } from 'react-cookie';
 
 const AppProvider = ({ children }) => {
   const [cookies, setCookie] = useCookies(['recentCategoryId']);
-  const [categoryIdCtx, setCategoryIdCtx] = useState(
-    cookies.recentCategoryId !== "" ? cookies.recentCategoryId : ""
-  );
+  const [categoryIdCtx, setCategoryIdCtx] = useState(cookies.recentCategoryId);
   const cookieOptions = {
     expires: new Date(Date.now() + 86400000000),
     path: '/',

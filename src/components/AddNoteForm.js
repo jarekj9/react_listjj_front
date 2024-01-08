@@ -3,6 +3,7 @@ import api from '../ApiConfig';
 import { useNavigate  } from 'react-router-dom';
 import AppContext from '../AppContext';
 import TagsInput from './TagsInput';
+import { toast } from 'react-toastify'; 
 
 const AddNoteForm = (props) => {
     const { categoryIdCtx, updateCategoryIdCtx } = useContext(AppContext);
@@ -30,8 +31,12 @@ const AddNoteForm = (props) => {
                 console.log('Item created successfully:', response.data);
                 props.refresh(); 
                 navigate('/items'); 
+                toast.success('Message added', {autoClose: 1000 });
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                console.log(err);
+                toast.error('Error');
+            });
         updateCategoryIdCtx(formData.categoryid);
     }
     

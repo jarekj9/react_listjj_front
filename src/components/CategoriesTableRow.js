@@ -2,6 +2,7 @@ import React from "react";
 import {  useState} from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import api from '../ApiConfig';
+import { toast } from 'react-toastify'; 
 
 const CategoriesTableRow = ({ refresh, ...category }) => {
     const [isEditMode, setIsEditMode] = useState(false);
@@ -21,10 +22,13 @@ const CategoriesTableRow = ({ refresh, ...category }) => {
         const requestData = id;
         api.post('/api/category/delete', requestData, config)
             .then((response) => {
-                console.log('Deleted:', response);
                 refresh();
+                toast.success(`Deleted ${category.name}`, {autoClose: 1000 });
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                console.log(err);
+                toast.error('Error');
+            });
     };
 
     const Save = () => {
@@ -36,8 +40,12 @@ const CategoriesTableRow = ({ refresh, ...category }) => {
         api.post('/api/category/addorupdate', formDataToSend)
             .then((response) => {
                 refresh();
+                toast.success('Updated', {autoClose: 1000 });
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                console.log(err);
+                toast.error('Error');
+            });
     };
 
     const onSaveAndExitEditClick = () => {

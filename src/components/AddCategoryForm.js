@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import api from '../ApiConfig';
 import { useNavigate  } from 'react-router-dom';
+import { toast } from 'react-toastify'; 
 
 const AddCategoryForm = (props) => {
 
@@ -12,9 +13,13 @@ const AddCategoryForm = (props) => {
             .then((response) => {
                 console.log('Category created successfully:', response.data);
                 props.refresh(); 
-                navigate('/categories'); 
+                navigate('/categories');
+                toast.success('Category added', {autoClose: 1000 });
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                console.log(err);
+                toast.error('Error');
+            });
     }
     
     const handleChange = (e) => {

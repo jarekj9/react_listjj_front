@@ -10,12 +10,17 @@ import Logout from "./pages/Logout";
 import RouteGuard from "./components/RouteGuard";
 import { history } from './helpers/History';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';   
+
+
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faCheckSquare, faBars, faTrash, faEdit, faSave, faArrowUp, faArrowDown, faMagnifyingGlass, faPlus } from '@fortawesome/free-solid-svg-icons'
 
 
 import { useDispatch } from 'react-redux';
 import Categories from "./pages/Categories";
+
 
 function App() {
 
@@ -31,7 +36,8 @@ function App() {
 
   return (
     
-    <div className="App">      
+    <div className="App">
+      <ToastContainer />  
       <Router history={history}>
         <Routes>
           <Route index element={<RouteGuard component={<Base component={Items} />} />} />
