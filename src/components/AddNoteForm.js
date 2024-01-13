@@ -30,7 +30,9 @@ const AddNoteForm = (props) => {
             .then((response) => {
                 console.log('Item created successfully:', response.data);
                 props.refresh(); 
-                navigate('/items'); 
+                navigate('/items');
+                setFormData({ categoryid:'', name: '', description: '', tags: [], value: 0, tags: [] });
+                setTags([]);
                 toast.success('Message added', {autoClose: 1000 });
             })
             .catch(err => {
@@ -62,18 +64,18 @@ const AddNoteForm = (props) => {
                 </div>
                 <div className="form-group">
                     <label htmlFor="name" className='d-flex text-light'>Name</label>
-                    <input id="name" name="name" className="form-control" type="text" placeholder="..." onChange={handleChange} />
+                    <input id="name" name="name" className="form-control" type="text" placeholder="..." value={formData.name} onChange={handleChange} />
                 </div>
                 <div className="form-group pt-2">
                     <TagsInput tags={tags} setTags={setTags} edit={true} />
                 </div>
                 <div className="form-group">
                     <label htmlFor="description" className='d-flex text-light'>Description</label>
-                    <textarea id="description" name="description" className="form-control" type="text" rows='4' placeholder="..." onChange={handleChange} />
+                    <textarea id="description" name="description" className="form-control" type="text" rows='4' placeholder="..." value={formData.description} onChange={handleChange} />
                 </div>
                 <div className="form-group">
                     <label htmlFor="value" className='d-flex text-light'>Value</label>
-                    <input id="value" name="value" defaultValue="0" className="form-control" type="number" placeholder="..." onChange={handleChange} />
+                    <input id="value" name="value" defaultValue="0" className="form-control" type="number" placeholder="..." value={formData.value} onChange={handleChange} />
                 </div>
             </form>
         </div>

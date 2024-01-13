@@ -18,6 +18,7 @@ const TagsInput = (props) =>{
     };
 
     function onButtonClick(e) {
+        e.preventDefault();
         if(!tagsInput.trim()) return;
         props.setTags([...props.tags, tagsInput]);
         setTagsInput('');
@@ -81,7 +82,7 @@ const TagsInput = (props) =>{
             { props.edit && 
                 <>
                 <input onKeyDown={onInputKeyDown} onChange={onInputChange} value={tagsInput} type="text" className="tags-input" placeholder="add tags" />
-                <button className="btn btn-sm btn-outline-primary" onClick={onButtonClick}><FontAwesomeIcon icon="plus" /></button>
+                <button className="btn btn-sm btn-secondary ms-2" onClick={onButtonClick}><FontAwesomeIcon icon="plus" /></button>
                 </>
             }
         </div>
