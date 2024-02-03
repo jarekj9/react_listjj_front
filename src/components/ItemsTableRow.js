@@ -144,7 +144,7 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
                 isEditMode ?
                 (
                     <>
-                    <td>
+                    <td className="mobile-name-td">
                         {item.tags && item.tags.map((tag) => tag + " ")  }
                         <input className="full-width" type="text" name="name" defaultValue={item.name} onChange={handleInputChange} />
                         <div><textarea className="full-width" type="text" name="description" defaultValue={item.description} onChange={handleInputChange} /></div>

@@ -50,3 +50,11 @@
   .blinkingRow {
     background-color: #e5790d !important;
   }
+
+  @media (max-width: 768px) {
+
+    .mobile-name-td {
+      max-width: 15%;
+      width:15%;
+    }
+  }

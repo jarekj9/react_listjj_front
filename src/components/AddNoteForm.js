@@ -33,7 +33,7 @@ const AddNoteForm = (props) => {
                 navigate('/items');
                 setFormData({ categoryid:'', name: '', description: '', tags: [], value: 0, tags: [] });
                 setTags([]);
-                toast.success('Message added', {autoClose: 1000 });
+                toast.success('Message added', {autoClose: 1000, position: "bottom-right" });
             })
             .catch(err => {
                 console.log(err);
