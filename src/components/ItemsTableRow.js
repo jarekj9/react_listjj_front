@@ -144,26 +144,54 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
                 isEditMode ?
                 (
                     <>
-                    <td className="mobile-name-td">
-                        {item.tags && item.tags.map((tag) => tag + " ")  }
-                        <input className="full-width" type="text" name="name" defaultValue={item.name} onChange={handleInputChange} />
-                        <div><textarea className="full-width" type="text" name="description" defaultValue={item.description} onChange={handleInputChange} /></div>
-                        <div>
-                            <select id="categoryId" name="categoryId" defaultValue={item.categoryId} className="form-control" onChange={handleInputChange}>
-                                <option value="">...</option>
-                                {categoriesData && categoriesData.map((category) => <option key={category.id} value={category.id}>{category.name}</option>)}
-                            </select>
-                        </div>
-                        <TagsInput tags={tags} setTags={setTags} edit={true} />
-                        {item.files && item.files.map((file) => <a href="#" key={file.id} onClick={() => onFileDownloadCLick(file.id)}>{file.name} </a>)}
-                        <input type="file" name="fileInput" onChange={handleFileChange}/>
-                    </td>
-                    <td><input className="full-width" type="text" name="value" defaultValue={item.value} onChange={handleInputChange} /></td>
-                    <td><input className="full-width" type="checkbox" name="active" defaultChecked={item.active} onChange={handleInputChange} /></td>
                     <td>
-                        <button className="btn btn-sm btn-outline-danger px-1" onClick={() => onDeleteClick(item.id)}><FontAwesomeIcon icon="trash" /> </button>
-                        <button className="btn btn-sm btn-outline-secondary px-1 ms-1" onClick={editModeSwitch}><FontAwesomeIcon icon="edit" /> </button>
-                        <button className="btn btn-sm btn-outline-primary px-1 ms-1" onClick={onSaveAndExitEditClick}><FontAwesomeIcon icon="save" /> </button>
+                        <div className="d-flex flex-column mobile-name-td">
+
+                            <div className="d-flex pb-2">
+                                <button className="btn btn-sm btn-outline-danger px-1" onClick={() => onDeleteClick(item.id)}><FontAwesomeIcon icon="trash" /> </button>
+                                <button className="btn btn-sm btn-outline-secondary px-1 ms-1" onClick={editModeSwitch}><FontAwesomeIcon icon="edit" /> </button>
+                                <button className="btn btn-sm btn-outline-primary px-1 ms-1" onClick={onSaveAndExitEditClick}><FontAwesomeIcon icon="save" /> </button>
+                                <input className="ms-auto" type="checkbox" name="active" defaultChecked={item.active} onChange={handleInputChange} />
+                            </div>
+                            <div className="">
+                                <div className="row">
+                                    <div className="col-xl-2 col-3 text-start">Name:</div>
+                                    <div className="col-xl-6 col">
+                                        <input className="full-width" type="text" name="name" defaultValue={item.name} onChange={handleInputChange} />
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-xl-2 col-3 text-start">Desc:</div>
+                                    <div className="col-xl-6 col">
+                                        <textarea className="full-width" type="text" name="description" defaultValue={item.description} onChange={handleInputChange} />
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-xl-2 col-3 text-start">Category:</div>
+                                    <div className="col-xl-6 col">
+                                        <select id="categoryId" name="categoryId" defaultValue={item.categoryId} className="form-control" onChange={handleInputChange}>
+                                            <option value="">...</option>
+                                            {categoriesData && categoriesData.map((category) => <option key={category.id} value={category.id}>{category.name}</option>)}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-xl-2 col-3 text-start">Value:</div>
+                                    <div className="col-xl-6 col"><input className="full-width" type="text" name="value" defaultValue={item.value} onChange={handleInputChange} /></div>
+                                </div>
+                            </div>
+                            <TagsInput tags={tags} setTags={setTags} edit={true} />
+                            <div className="align-self-start">
+                                {item.files && item.files.map((file) => 
+                                    <span>
+                                        <a href="#" key={file.id} onClick={() => onFileDownloadCLick(file.id)}>{file.name}</a> &nbsp;
+                                    </span>
+                                )}
+                            </div>
+                            <div className="align-self-start my-1">
+                                <input type="file" name="fileInput" onChange={handleFileChange}/>
+                            </div>
+                        </div>                        
                     </td>
                     </>
 
@@ -171,21 +199,37 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
                 (
                     <>
                     <td className={isBlinking ? "blinkingRow" : ""}>
-                        {item.name}<div className="text-mini">{item.description} </div>
-                        <TagsInput tags={tags} setTags={setTags} edit={false} />
-                        {item.files && item.files.map((file) => <a href="#" key={file.id} onClick={() => onFileDownloadCLick(file.id)}>{file.name} </a>)}
-                    </td>
-                    <td className={isBlinking ? "blinkingRow" : ""}>{item.value}</td>
-                    <td className={isBlinking ? "blinkingRow" : ""}><input type="checkbox" defaultChecked={item.active} onChange={() => onCheckboxClick(item.id)} /></td>
-                    <td className={isBlinking ? "blinkingRow" : ""}>
-                        <button className="btn btn-sm btn-outline-danger px-1" onClick={() => onDeleteClick(item.id)}><FontAwesomeIcon icon="trash" /> </button>
-                        <button className="btn btn-sm btn-outline-secondary px-1 ms-1" onClick={editModeSwitch}><FontAwesomeIcon icon="edit" /> </button>
-                        {categoryIdCtx && (
-                            <>
-                            <button className="btn btn-sm btn-outline-secondary px-1 ms-1" onClick={() => onMoveItemClick("up")}><FontAwesomeIcon icon="arrow-up" /> </button>
-                            <button className="btn btn-sm btn-outline-secondary px-1 ms-1" onClick={() => onMoveItemClick("down")}><FontAwesomeIcon icon="arrow-down" /> </button>
-                            </>
-                        )}
+                        <div className="d-flex align-items-center">
+                            <div className="">
+                                <button className="btn btn-sm btn-outline-danger px-1" onClick={() => onDeleteClick(item.id)}><FontAwesomeIcon icon="trash" /> </button>
+                                <button className="btn btn-sm btn-outline-secondary px-1 ms-1" onClick={editModeSwitch}><FontAwesomeIcon icon="edit" /> </button>
+                                {categoryIdCtx && (
+                                    <>
+                                    <button className="btn btn-sm btn-outline-secondary px-1 ms-1" onClick={() => onMoveItemClick("up")}><FontAwesomeIcon icon="arrow-up" /> </button>
+                                    <button className="btn btn-sm btn-outline-secondary px-1 ms-1" onClick={() => onMoveItemClick("down")}><FontAwesomeIcon icon="arrow-down" /> </button>
+                                    </>
+                                )}
+                            </div>
+                            <div className="ms-1"><TagsInput tags={tags} setTags={setTags} edit={false} /></div>
+                            <div className="ms-auto"><input type="checkbox" defaultChecked={item.active} onChange={() => onCheckboxClick(item.id)} /></div>
+                        </div>
+                        <div className="d-flex flex-column align-self-start">
+                            <div className="d-flex">
+                                <div>
+                                    {item.name}
+                                </div>
+                                <div className="ms-auto">
+                                    <h6><span className="badge bg-secondary">{item.value}</span></h6>
+                                </div>
+                            </div>
+                            <div className="align-self-start text-mini">{item.description} </div>
+                            <div className="align-self-start text-mini">
+                                {item.files && item.files.map((file) => 
+                                    <span>
+                                        <a href="#" key={file.id} onClick={() => onFileDownloadCLick(file.id)}>{file.name}</a>
+                                    </span>)}
+                            </div>
+                        </div>             
                     </td>
                     </>
                 )

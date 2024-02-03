@@ -33,14 +33,6 @@ const Items = (props) => {
             </div>
             {
                 <table className="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Value</th>
-                            <th>Active</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
                     <tbody>
                         {sortedItems.map(item => (
                             <ItemsTableRow key={item.id} refresh={props.refresh} categoriesData={props.categoriesData} itemsData={props.itemsData} setItemsData={props.setItemsData} {...item}/>

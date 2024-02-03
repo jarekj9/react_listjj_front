@@ -66,24 +66,26 @@ const TagsInput = (props) =>{
     };
 
     return (
-        <div className="tags-input-container">
-            { props.tags.map((tag, index) => ( tag !== "" ?
-                <div className="tag-item" key={index}>
-                    <span className="badge m-1" style={tagStyle(tag)}>
-                        {tag}
-                        { props.edit &&
-                            <a href="#" style={tagHrefStyle(tag)} onClick={() => removeTag(index)}><FontAwesomeIcon className="ms-1" icon="trash" /></a>
-                        }
-                    </span>
-                </div>
-                :
-                ""
-            ))}
+        <div className="tags-input-container d-flex flex-column align-items-start">
+            <div className="d-flex">
+                { props.tags.map((tag, index) => ( tag !== "" ?
+                    <div className="tag-item" key={index}>
+                        <span className="badge m-1" style={tagStyle(tag)}>
+                            {tag}
+                            { props.edit &&
+                                <a href="#" style={tagHrefStyle(tag)} onClick={() => removeTag(index)}><FontAwesomeIcon className="ms-1" icon="trash" /></a>
+                            }
+                        </span>
+                    </div>
+                    :
+                    ""
+                ))}
+            </div>
             { props.edit && 
-                <>
-                <input onKeyDown={onInputKeyDown} onChange={onInputChange} value={tagsInput} type="text" className="tags-input" placeholder="add tags" />
-                <button className="btn btn-sm btn-secondary ms-2" onClick={onButtonClick}><FontAwesomeIcon icon="plus" /></button>
-                </>
+                <div className="my-2">
+                    <input onKeyDown={onInputKeyDown} onChange={onInputChange} value={tagsInput} type="text" className="tags-input" placeholder="add tags" />
+                    <button className="btn btn-sm btn-secondary ms-2" onClick={onButtonClick}><FontAwesomeIcon icon="plus" /></button>
+                </div>
             }
         </div>
     )

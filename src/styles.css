@@ -54,7 +54,10 @@
   @media (max-width: 768px) {
 
     .mobile-name-td {
-      max-width: 15%;
-      width:15%;
+      max-width: 100%;
+      width:100%;
+    }
+    .mobile-ms-auto {
+      margin-left: auto;
     }
   }
