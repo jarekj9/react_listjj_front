@@ -148,10 +148,10 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
                         <div className="d-flex flex-column mobile-name-td">
 
                             <div className="d-flex pb-2">
-                                <button className="btn btn-sm btn-outline-danger px-1" onClick={() => onDeleteClick(item.id)}><FontAwesomeIcon icon="trash" /> </button>
+                                <input className="me-auto" type="checkbox" name="active" defaultChecked={item.active} onChange={handleInputChange} />
                                 <button className="btn btn-sm btn-outline-secondary px-1 ms-1" onClick={editModeSwitch}><FontAwesomeIcon icon="edit" /> </button>
                                 <button className="btn btn-sm btn-outline-primary px-1 ms-1" onClick={onSaveAndExitEditClick}><FontAwesomeIcon icon="save" /> </button>
-                                <input className="ms-auto" type="checkbox" name="active" defaultChecked={item.active} onChange={handleInputChange} />
+                                <button className="btn btn-sm btn-outline-danger px-1 ms-1" onClick={() => onDeleteClick(item.id)}><FontAwesomeIcon icon="trash" /> </button>
                             </div>
                             <div className="">
                                 <div className="row">
@@ -199,28 +199,29 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
                 (
                     <>
                     <td className={isBlinking ? "blinkingRow" : ""}>
-                        <div className="d-flex align-items-center">
+                        <div className="d-flex align-items-center">                           
                             <div className="">
-                                <button className="btn btn-sm btn-outline-danger px-1" onClick={() => onDeleteClick(item.id)}><FontAwesomeIcon icon="trash" /> </button>
-                                <button className="btn btn-sm btn-outline-secondary px-1 ms-1" onClick={editModeSwitch}><FontAwesomeIcon icon="edit" /> </button>
-                                {categoryIdCtx && (
-                                    <>
-                                    <button className="btn btn-sm btn-outline-secondary px-1 ms-1" onClick={() => onMoveItemClick("up")}><FontAwesomeIcon icon="arrow-up" /> </button>
-                                    <button className="btn btn-sm btn-outline-secondary px-1 ms-1" onClick={() => onMoveItemClick("down")}><FontAwesomeIcon icon="arrow-down" /> </button>
-                                    </>
-                                )}
+                                <div className="ms-1"><input type="checkbox" defaultChecked={item.active} onChange={() => onCheckboxClick(item.id)} /></div>
                             </div>
+                            {categoryIdCtx && (
+                                <>
+                                <button className="btn btn-sm btn-outline-secondary px-1 ms-1" onClick={() => onMoveItemClick("up")}><FontAwesomeIcon icon="arrow-up" /> </button>
+                                <button className="btn btn-sm btn-outline-secondary px-1 ms-1" onClick={() => onMoveItemClick("down")}><FontAwesomeIcon icon="arrow-down" /> </button>
+                                </>
+                            )}
+                            <h6 className="align-self-center mb-0 ms-1">
+                                <span className="badge bg-secondary">{item.value}</span>
+                            </h6>
                             <div className="ms-1"><TagsInput tags={tags} setTags={setTags} edit={false} /></div>
-                            <div className="ms-auto"><input type="checkbox" defaultChecked={item.active} onChange={() => onCheckboxClick(item.id)} /></div>
+                            <button className="btn btn-sm btn-outline-secondary px-1 ms-auto" onClick={editModeSwitch}><FontAwesomeIcon icon="edit" /> </button>
+                            <button className="btn btn-sm btn-outline-danger px-1 ms-1" onClick={() => onDeleteClick(item.id)}><FontAwesomeIcon icon="trash" /> </button>
                         </div>
                         <div className="d-flex flex-column align-self-start">
                             <div className="d-flex">
                                 <div>
                                     {item.name}
                                 </div>
-                                <div className="ms-auto">
-                                    <h6><span className="badge bg-secondary">{item.value}</span></h6>
-                                </div>
+
                             </div>
                             <div className="align-self-start text-mini">{item.description} </div>
                             <div className="align-self-start text-mini">

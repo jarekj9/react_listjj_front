@@ -75,7 +75,7 @@ const AddNoteForm = (props) => {
                 </div>
                 <div className="form-group">
                     <label htmlFor="value" className='d-flex text-light'>Value</label>
-                    <input id="value" name="value" defaultValue="0" className="form-control" type="number" placeholder="..." value={formData.value} onChange={handleChange} />
+                    <input id="value" name="value" className="form-control" type="number" placeholder="..." value={formData.value} onChange={handleChange} />
                 </div>
             </form>
         </div>

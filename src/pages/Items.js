@@ -8,6 +8,7 @@ const Items = (props) => {
     const { categoryIdCtx, updateCategoryIdCtx } = useContext(AppContext);
     const onCategorySelected = (e) => {
         updateCategoryIdCtx(e.target.value);
+        props.refresh();
     };
 
     const filteredItems = props.itemsData.filter(item => categoryIdCtx !== "" ? item.categoryId === categoryIdCtx : true);

@@ -6,11 +6,13 @@ import api from '../ApiConfig.js';
 import AppContext from '../AppContext';
 
 const BasePage = ({component: PageComponent}) => {
-    const { categoryIdCtx, updateCategoryIdCtx } = useContext(AppContext);
+    
+    const { categoryIdCtx, updateCategoryIdCtx, loadingCtx, updateLoadingCtx } = useContext(AppContext);
     const [itemsData, setItemsData] = useState([]);
     const [searchWords, setSearchWords] = useState('');
+
     useEffect(() => {
-        getListjjItems().then(items => setItemsData(items))
+        refresh();
     }, []);
 
     const [categoriesData, setCategoriesData] = useState([]);
@@ -18,9 +20,14 @@ const BasePage = ({component: PageComponent}) => {
         getListjjCategories().then(categories => setCategoriesData(categories))
     }, []);
 
+
     const refresh = () => {
-        getListjjItems().then(items => setItemsData(items));
-        getListjjCategories().then(categories => setCategoriesData(categories));
+        updateLoadingCtx(true);
+        Promise.all([getListjjItems(), getListjjCategories()]).then(([items, categories]) => {
+            setItemsData(items);
+            setCategoriesData(categories);
+            updateLoadingCtx(false);
+        });
     };
 
     const [sidebarOpen, setSideBarOpen] = useState(true);
@@ -29,6 +36,7 @@ const BasePage = ({component: PageComponent}) => {
     };
 
     const getListjjItems = async () => {
+        await new Promise(r => setTimeout(r, 2000));
         const response = api.get(`/api/item/items_by_filter?searchWords=${searchWords ?? ' '}&fromDateStr=${' '}&toDateStr=${' '}&categoryId=${categoryIdCtx}`)
             .then(({data }) => {
                 return data;
@@ -84,6 +92,7 @@ const BasePage = ({component: PageComponent}) => {
             </div>
 
             <div className={contentClass}>
+                {loadingCtx && <div class="spinner-border" role="status"></div>}
                 <PageComponent refresh={refresh} setSearchWords={setSearchWords} categoriesData={categoriesData} itemsData={itemsData} setItemsData={setItemsData} />
             </div>
         </div>
