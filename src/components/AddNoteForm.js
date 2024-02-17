@@ -4,7 +4,7 @@ import { useNavigate  } from 'react-router-dom';
 import AppContext from '../AppContext';
 import TagsInput from './TagsInput';
 import { toast } from 'react-toastify'; 
-import useAutosizeTextArea from "./useAutosizeTextArea";
+import useAutosizeTextArea from "./UseAutosizeTextArea";
 
 
 const AddNoteForm = (props) => {

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-const useAutosizeTextArea = (
+const UseAutosizeTextArea = (
   textAreaRef,
   value
 ) => {
@@ -13,4 +13,4 @@ const useAutosizeTextArea = (
   }, [textAreaRef, value]);
 };
 
-export default useAutosizeTextArea;
+export default UseAutosizeTextArea;

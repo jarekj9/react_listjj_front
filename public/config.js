@@ -1,1 +1,1 @@
-window.API_URL = "https://localhost:5001"
+window.API_URL="https://localhost:5001"

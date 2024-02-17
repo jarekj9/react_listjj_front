@@ -5,7 +5,7 @@ import TagsInput from './TagsInput';
 import AppContext from '../AppContext';
 import { fileToB64, b64ToFile } from '../helpers/Data\Convert';
 import { toast } from 'react-toastify'; 
-import useAutosizeTextArea from "./useAutosizeTextArea";
+import useAutosizeTextArea from "./UseAutosizeTextArea";
 
 const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...item }) => {
 
@@ -15,14 +15,27 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
     const [tags, setTags] = useState(item.tags ? item.tags : [])
     const [file, setFile] = useState(null);
 
-    const [textAreaValue, setTextAreaValue] = useState("");
+    const handleSetIsEditMode = (newValue) => {
+        setIsEditMode(newValue);
+        item.description=item.description;
+      };
+
     const textAreaRef = useRef();
-    useAutosizeTextArea(textAreaRef.current, textAreaValue);
+    useAutosizeTextArea(textAreaRef.current, item.description);
 
     const handleTextAreaChange = (e) => {
         const val = e.target?.value;
-        setTextAreaValue(val);
+        setItemsData(itemsData.map(i => {
+            if(i.id === item.id) {
+                i.description = val;
+            }
+            return i;
+        }));
     };
+
+    const onTextAreaClick = (e) => {
+        handleTextAreaChange(e);
+    }
 
     const handleFileChange = async (e) => {
         if (!e.target.files) {
@@ -59,7 +72,7 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
     };
 
     const editModeSwitch = () => {
-        setIsEditMode(!isEditMode);
+        handleSetIsEditMode(!isEditMode);
     };
 
     const blinkRow = (times, speed) => {
@@ -174,7 +187,7 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
                                 <div className="row">
                                     <div className="col-xl-2 col-3 text-start">Desc:</div>
                                     <div className="col-xl-6 col">
-                                        <textarea ref={textAreaRef} value={textAreaValue} rows="1" className="full-width" type="text" name="description" defaultValue={item.description} onChange={handleInputChange} />
+                                        <textarea ref={textAreaRef} rows="1" className="full-width" type="text" name="description" defaultValue={item.description} onClick={onTextAreaClick} onChange={handleInputChange} />
                                     </div>
                                 </div>
                                 <div className="row">

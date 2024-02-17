@@ -3,11 +3,9 @@ import { useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import AddNoteForm from "../components/AddNoteForm";
 import AddCategoryForm from "../components/AddCategoryForm";
-//import env from "react-dotenv";
 
 const SideBar = props => {
-    //const version = env.VERSION;
-    const sidebarClass = props.isOpen ? "sidebar sidebarOpen" : "sidebar";
+    const sidebarClass = props.isOpen ? "sidebar sidebarOpen d-flex flex-column" : "sidebar d-flex flex-column";
     const location = useLocation();
 
   return (
@@ -23,9 +21,9 @@ const SideBar = props => {
             </div>
 
         </div>
-        {/* <div className="version">
-            <p>Version: {version}</p>
-        </div> */}
+        <div className="text-light text-mini align-self-start mt-4 ms-3">
+            <p>Version: {window.APP_VERSION}</p>
+        </div>
     </div>
   )
 
