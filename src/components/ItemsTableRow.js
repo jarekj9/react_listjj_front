@@ -1,10 +1,11 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import api from '../ApiConfig';
 import TagsInput from './TagsInput';
 import AppContext from '../AppContext';
 import { fileToB64, b64ToFile } from '../helpers/Data\Convert';
 import { toast } from 'react-toastify'; 
+import useAutosizeTextArea from "./useAutosizeTextArea";
 
 const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...item }) => {
 
@@ -13,6 +14,15 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
     const [isBlinking, setIsBlinking] = useState(false);
     const [tags, setTags] = useState(item.tags ? item.tags : [])
     const [file, setFile] = useState(null);
+
+    const [textAreaValue, setTextAreaValue] = useState("");
+    const textAreaRef = useRef();
+    useAutosizeTextArea(textAreaRef.current, textAreaValue);
+
+    const handleTextAreaChange = (e) => {
+        const val = e.target?.value;
+        setTextAreaValue(val);
+    };
 
     const handleFileChange = async (e) => {
         if (!e.target.files) {
@@ -136,16 +146,17 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
             return;
         }
         setFormData({ ...formData, [e.target.name]: e.target.value });
+        handleTextAreaChange(e);
     };
 
     return (
-        <tr onDoubleClick={editModeSwitch} id={item.id}>
+        <tr onDoubleClick={editModeSwitch} id={item.id} className="mobile-wrap-text">
             {
                 isEditMode ?
                 (
                     <>
                     <td>
-                        <div className="d-flex flex-column mobile-name-td">
+                        <div className="d-flex flex-column">
 
                             <div className="d-flex pb-2">
                                 <input className="me-auto" type="checkbox" name="active" defaultChecked={item.active} onChange={handleInputChange} />
@@ -163,7 +174,7 @@ const ItemsTableRow = ({ refresh, categoriesData, itemsData, setItemsData, ...it
                                 <div className="row">
                                     <div className="col-xl-2 col-3 text-start">Desc:</div>
                                     <div className="col-xl-6 col">
-                                        <textarea className="full-width" type="text" name="description" defaultValue={item.description} onChange={handleInputChange} />
+                                        <textarea ref={textAreaRef} value={textAreaValue} rows="1" className="full-width" type="text" name="description" defaultValue={item.description} onChange={handleInputChange} />
                                     </div>
                                 </div>
                                 <div className="row">

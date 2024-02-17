@@ -9,17 +9,12 @@ const BasePage = ({component: PageComponent}) => {
     
     const { categoryIdCtx, updateCategoryIdCtx, loadingCtx, updateLoadingCtx } = useContext(AppContext);
     const [itemsData, setItemsData] = useState([]);
+    const [categoriesData, setCategoriesData] = useState([]);
     const [searchWords, setSearchWords] = useState('');
-
+    
     useEffect(() => {
         refresh();
-    }, []);
-
-    const [categoriesData, setCategoriesData] = useState([]);
-    useEffect(() => {
-        getListjjCategories().then(categories => setCategoriesData(categories))
-    }, []);
-
+    }, [categoryIdCtx]);
 
     const refresh = () => {
         updateLoadingCtx(true);
@@ -36,7 +31,6 @@ const BasePage = ({component: PageComponent}) => {
     };
 
     const getListjjItems = async () => {
-        await new Promise(r => setTimeout(r, 2000));
         const response = api.get(`/api/item/items_by_filter?searchWords=${searchWords ?? ' '}&fromDateStr=${' '}&toDateStr=${' '}&categoryId=${categoryIdCtx}`)
             .then(({data }) => {
                 return data;
@@ -92,7 +86,7 @@ const BasePage = ({component: PageComponent}) => {
             </div>
 
             <div className={contentClass}>
-                {loadingCtx && <div class="spinner-border" role="status"></div>}
+                {loadingCtx && <div className="spinner-border" role="status"></div>}
                 <PageComponent refresh={refresh} setSearchWords={setSearchWords} categoriesData={categoriesData} itemsData={itemsData} setItemsData={setItemsData} />
             </div>
         </div>

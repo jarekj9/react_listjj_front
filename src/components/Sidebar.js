@@ -3,8 +3,10 @@ import { useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import AddNoteForm from "../components/AddNoteForm";
 import AddCategoryForm from "../components/AddCategoryForm";
+//import env from "react-dotenv";
 
 const SideBar = props => {
+    //const version = env.VERSION;
     const sidebarClass = props.isOpen ? "sidebar sidebarOpen" : "sidebar";
     const location = useLocation();
 
@@ -21,7 +23,11 @@ const SideBar = props => {
             </div>
 
         </div>
+        {/* <div className="version">
+            <p>Version: {version}</p>
+        </div> */}
     </div>
-  );
+  )
+
 };
 export default SideBar;

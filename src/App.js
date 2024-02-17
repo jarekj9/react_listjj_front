@@ -37,7 +37,7 @@ function App() {
   return (
     
     <div className="App">
-      <ToastContainer />  
+      <ToastContainer position="bottom-right"/>  
       <Router history={history}>
         <Routes>
           <Route index element={<RouteGuard component={<Base component={Items} />} />} />

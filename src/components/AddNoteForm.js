@@ -1,9 +1,11 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import api from '../ApiConfig';
 import { useNavigate  } from 'react-router-dom';
 import AppContext from '../AppContext';
 import TagsInput from './TagsInput';
 import { toast } from 'react-toastify'; 
+import useAutosizeTextArea from "./useAutosizeTextArea";
+
 
 const AddNoteForm = (props) => {
     const { categoryIdCtx, updateCategoryIdCtx } = useContext(AppContext);
@@ -17,6 +19,12 @@ const AddNoteForm = (props) => {
         tags: [],
     });  
     const navigate = useNavigate();
+
+    const textAreaRef = useRef();
+    useAutosizeTextArea(textAreaRef.current, formData.description);
+    const handleTextAreaChange = (e) => {
+        const val = e.target?.value;
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -47,6 +55,7 @@ const AddNoteForm = (props) => {
         if(e.target.name === 'categoryid') {
             updateCategoryIdCtx(e.target.value);
         }
+        handleTextAreaChange(e);
     }; 
 
     return (
@@ -71,7 +80,7 @@ const AddNoteForm = (props) => {
                 </div>
                 <div className="form-group">
                     <label htmlFor="description" className='d-flex text-light'>Description</label>
-                    <textarea id="description" name="description" className="form-control" type="text" rows='4' placeholder="..." value={formData.description} onChange={handleChange} />
+                    <textarea ref={textAreaRef}  id="description" name="description" className="form-control" type="text" rows='4' placeholder="..." value={formData.description} onChange={handleChange} />
                 </div>
                 <div className="form-group">
                     <label htmlFor="value" className='d-flex text-light'>Value</label>
