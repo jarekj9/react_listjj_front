@@ -4,6 +4,7 @@ import Header from '../components/Header.js';
 import OutSideSidebarClick from '../components/OutsideSideBarClick.js';
 import api from '../ApiConfig.js';
 import AppContext from '../AppContext';
+import { toast } from 'react-toastify'; 
 
 const BasePage = ({component: PageComponent}) => {
     
@@ -16,9 +17,9 @@ const BasePage = ({component: PageComponent}) => {
         refresh();
     }, [categoryIdCtx]);
 
-    const refresh = () => {
+    const refresh = async () => {
         updateLoadingCtx(true);
-        Promise.all([getListjjItems(), getListjjCategories()]).then(([items, categories]) => {
+        await Promise.all([getListjjItems(), getListjjCategories()]).then(([items, categories]) => {
             setItemsData(items);
             setCategoriesData(categories);
             updateLoadingCtx(false);
@@ -31,12 +32,14 @@ const BasePage = ({component: PageComponent}) => {
     };
 
     const getListjjItems = async () => {
-        const response = api.get(`/api/item/items_by_filter?searchWords=${searchWords ?? ' '}&fromDateStr=${' '}&toDateStr=${' '}&categoryId=${categoryIdCtx}`)
+        const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
+        await sleep(5000);
+        const response = await api.get(`/api/item/items_by_filter?searchWords=${searchWords ?? ' '}&fromDateStr=${' '}&toDateStr=${' '}&categoryId=${categoryIdCtx}`)
             .then(({data }) => {
                 return data;
             })
             .catch(error => {
-                if (error.response.status === 401) {
+                if (error?.response?.status === 401) {
                   const reason = error.response.data;
                   const headers = error.response.headers;
                   console.log(`Unauthorized: ${reason}`);
@@ -45,17 +48,19 @@ const BasePage = ({component: PageComponent}) => {
                 else {
                     console.log(error);
                 }
+                toast.error('Error while fetching data.');
+                return [];
             });
         return response;
     };
     
     const getListjjCategories = async () => {
-        const response = api.get('/api/category/categories_by_userid')
+        const response = await api.get('/api/category/categories_by_userid')
             .then(({data }) => {
                 return data;
             })
             .catch(error => {
-                if (error.response.status === 401) {
+                if (error?.response?.status === 401) {
                   const reason = error.response.data;
                   const headers = error.response.headers;
                   console.log(`Unauthorized: ${reason}`);
@@ -64,6 +69,7 @@ const BasePage = ({component: PageComponent}) => {
                 else {
                     console.log(error);
                 }
+                return [];
             });
         return response;
     };

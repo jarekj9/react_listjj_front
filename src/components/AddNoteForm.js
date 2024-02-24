@@ -8,7 +8,7 @@ import useAutosizeTextArea from "./UseAutosizeTextArea";
 
 
 const AddNoteForm = (props) => {
-    const { categoryIdCtx, updateCategoryIdCtx } = useContext(AppContext);
+    const { categoryIdCtx, updateCategoryIdCtx, loadingCtx, updateLoadingCtx } = useContext(AppContext);
     const [tags, setTags] = useState([])
     const [formData, setFormData] = useState({
         categoryid:'', 
@@ -32,6 +32,7 @@ const AddNoteForm = (props) => {
             alert('Please select a category');
             return;
         }
+        updateLoadingCtx(true);
         formData.categoryid = categoryIdCtx;
         formData.tags = tags;
         api.post('/api/item/addorupdate', formData)
@@ -46,9 +47,13 @@ const AddNoteForm = (props) => {
             .catch(err => {
                 console.log(err);
                 toast.error('Error');
+            })
+            .finally(() => {
+                updateLoadingCtx(false);
             });
+    };
         updateCategoryIdCtx(formData.categoryid);
-    }
+
     
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -62,7 +67,7 @@ const AddNoteForm = (props) => {
         <div className=''>
             <form onSubmit={handleSubmit} onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()}>
                 <div className="d-flex mb-2">
-                    <button className="btn btn-secondary" type="submit">Add Note</button>
+                    <button className="btn btn-secondary" type="submit" disabled={loadingCtx}>Add Note {loadingCtx && <span className="spinner-border spinner-border-sm" role="status"></span>}</button>
                 </div>
                 <div className="form-group">
                     <label htmlFor="categoryid" className='d-flex text-light'>Category</label>
