@@ -52,8 +52,6 @@ const AddNoteForm = (props) => {
                 updateLoadingCtx(false);
             });
     };
-        updateCategoryIdCtx(formData.categoryid);
-
     
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
