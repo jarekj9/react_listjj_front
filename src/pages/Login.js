@@ -1,24 +1,27 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import { useDispatch } from 'react-redux';
 import api from '../ApiConfig.js';
+import GoogleAuth from '../components/GoogleAuth.js';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-const handleLogin = async () => {
-    const loginUrl = '/api/login';
-    const loginData = { 'Email': email, 'Password': password };
-    const headers = {'Content-Type': 'application/json;charset=UTF-8', 'Accept': 'application/json'}
-    const response = api.post(loginUrl, loginData, headers)
-        .then(({data }) => {
-            console.log('Login successful! Token:', data.token);
-            localStorage.setItem("token", data.token);
-            window.location.href = '/';
-        })
-        .catch(err =>console.log(err));
+
+const onLoginClick = async () => {
+  const loginData = { 'Email': email, 'Password': password};
+  handleLogin(loginData);
 };
 
+const handleLogin = async (loginData) => {
+  const loginUrl = '/api/login';
+  const headers = {'Content-Type': 'application/json;charset=UTF-8', 'Accept': 'application/json'}
+  const response = api.post(loginUrl, loginData, headers)
+      .then(({data }) => {
+          console.log('Login successful! Token:', data.token);
+          localStorage.setItem("token", data.token);
+          window.location.href = '/';
+      })
+      .catch(err =>console.log(err));
+};
 
   return (
     <div className="container col-sm-12 col-md-10 col-lg-6 col-xl-4">
@@ -28,7 +31,6 @@ const handleLogin = async () => {
         </div>    
       <div className="card-body">
           <div className="d-flex flex-row justify-content-center">
-
             <div className="d-flex flex-column">
               <div className="p-2">
                 <label className="d-flex align-self-start text-secondary">Email:</label>
@@ -41,7 +43,10 @@ const handleLogin = async () => {
             </div>
           </div>
           <div className="d-flex flex-row justify-content-center">
-            <button className="btn btn-secondary mt-3" onClick={handleLogin}>Login</button>
+            <button className="btn btn-secondary mt-3" onClick={onLoginClick}>Login</button>
+          </div>
+          <div className="d-flex flex-row justify-content-center p-5">
+            <GoogleAuth handleLogin={handleLogin}/>
           </div>
         </div>  
       </div>

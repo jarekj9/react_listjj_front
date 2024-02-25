@@ -8,6 +8,7 @@ const Logout = () =>{
     return(
         <div>
             <h1>Logged out</h1>
+            <h5><a href="/login">Log back in</a></h5>
         </div>
     )
 }
