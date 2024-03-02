@@ -5,14 +5,20 @@ import OutSideSidebarClick from '../components/OutsideSideBarClick.js';
 import api from '../ApiConfig.js';
 import AppContext from '../AppContext';
 import { toast } from 'react-toastify'; 
+import { jwtDecode } from "jwt-decode";
 
 const BasePage = ({component: PageComponent}) => {
     
-    const { categoryIdCtx, updateCategoryIdCtx, loadingCtx, updateLoadingCtx } = useContext(AppContext);
+    const { categoryIdCtx, updateCategoryIdCtx, loadingCtx, updateLoadingCtx, usernameCtx, setUsernameCtx, setRoleCtx } = useContext(AppContext);
     const [itemsData, setItemsData] = useState([]);
     const [categoriesData, setCategoriesData] = useState([]);
     const [searchWords, setSearchWords] = useState('');
-    
+
+    const token = localStorage.getItem("token");
+    const decodedJwt = jwtDecode(token);
+    setUsernameCtx(decodedJwt.username);
+    setRoleCtx(decodedJwt.role);
+
     useEffect(() => {
         refresh();
     }, [categoryIdCtx]);

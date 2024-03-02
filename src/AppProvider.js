@@ -4,6 +4,8 @@ import { useCookies } from 'react-cookie';
 
 const AppProvider = ({ children }) => {
   const [cookies, setCookie] = useCookies(['recentCategoryId']);
+  const [usernameCtx, setUsernameCtx] = useState('');
+  const [roleCtx, setRoleCtx] = useState('');
   const [categoryIdCtx, setCategoryIdCtx] = useState(cookies.recentCategoryId);
   const [loadingCtx, setLoadingCtx] = useState(false);
   const cookieOptions = {
@@ -20,7 +22,7 @@ const AppProvider = ({ children }) => {
   };
 
   return (
-    <AppContext.Provider value={{ categoryIdCtx, updateCategoryIdCtx, loadingCtx, updateLoadingCtx }}>
+    <AppContext.Provider value={{ categoryIdCtx, updateCategoryIdCtx, loadingCtx, updateLoadingCtx, usernameCtx, setUsernameCtx, roleCtx, setRoleCtx }}>
       {children}
     </AppContext.Provider>
   );

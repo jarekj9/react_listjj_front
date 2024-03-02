@@ -1,10 +1,12 @@
-import React from "react";
+import { useContext, React, useState } from "react";
 import { useLocation } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import AddNoteForm from "../components/AddNoteForm";
 import AddCategoryForm from "../components/AddCategoryForm";
+import AppContext from '../AppContext';
+import { jwtDecode } from "jwt-decode";
 
 const SideBar = props => {
+    const {usernameCtx, roleCtx} = useContext(AppContext);
     const sidebarClass = props.isOpen ? "sidebar sidebarOpen d-flex flex-column" : "sidebar d-flex flex-column";
     const location = useLocation();
 
@@ -21,8 +23,10 @@ const SideBar = props => {
             </div>
 
         </div>
-        <div className="text-light text-mini align-self-start mt-4 ms-3">
-            <p>Version: {window.APP_VERSION}</p>
+        <div className="text-light text-mini align-self-start mt-4 ms-3 d-flex flex-column">
+            <p className="align-self-start">Version: <strong>{window.APP_VERSION}</strong></p>
+            <p className="align-self-start">Logged in as: <strong>{usernameCtx}</strong></p>
+            <p className="align-self-start">Role: <strong>{roleCtx}</strong></p>
         </div>
     </div>
   )

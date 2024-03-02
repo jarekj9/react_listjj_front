@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import api from '../ApiConfig.js';
 import GoogleAuth from '../components/GoogleAuth.js';
 
@@ -16,7 +16,6 @@ const handleLogin = async (loginData) => {
   const headers = {'Content-Type': 'application/json;charset=UTF-8', 'Accept': 'application/json'}
   const response = api.post(loginUrl, loginData, headers)
       .then(({data }) => {
-          console.log('Login successful! Token:', data.token);
           localStorage.setItem("token", data.token);
           window.location.href = '/';
       })
