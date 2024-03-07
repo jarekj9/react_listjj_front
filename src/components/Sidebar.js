@@ -1,5 +1,5 @@
 import { useContext, React, useState } from "react";
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import AddNoteForm from "../components/AddNoteForm";
 import AddCategoryForm from "../components/AddCategoryForm";
 import AppContext from '../AppContext';
@@ -26,7 +26,17 @@ const SideBar = props => {
         <div className="text-light text-mini align-self-start mt-4 ms-3 d-flex flex-column">
             <p className="align-self-start">Version: <strong>{window.APP_VERSION}</strong></p>
             <p className="align-self-start">Logged in as: <strong>{usernameCtx}</strong></p>
-            <p className="align-self-start">Role: <strong>{roleCtx}</strong></p>
+            <p className="align-self-start">
+                Role: <strong>{roleCtx}</strong>
+                {roleCtx === 'Admin' && (
+                    <> :::
+                    <Link className="link-danger ms-1" to="/users">Users mgmt</Link>
+                    </>
+                )}
+                
+
+            </p>
+
         </div>
     </div>
   )

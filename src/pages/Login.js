@@ -1,6 +1,8 @@
 import React, { useState, useContext } from 'react';
 import api from '../ApiConfig.js';
 import GoogleAuth from '../components/GoogleAuth.js';
+import { toast } from 'react-toastify'; 
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -19,7 +21,10 @@ const handleLogin = async (loginData) => {
           localStorage.setItem("token", data.token);
           window.location.href = '/';
       })
-      .catch(err =>console.log(err));
+      .catch(err => {
+        toast.error('Login Failed');
+        console.log(err);
+      });
 };
 
   return (
@@ -46,6 +51,9 @@ const handleLogin = async (loginData) => {
           </div>
           <div className="d-flex flex-row justify-content-center p-5">
             <GoogleAuth handleLogin={handleLogin}/>
+          </div>
+          <div className="d-flex flex-row justify-content-center">
+            <h5><Link className="" to="/register">Register</Link></h5>
           </div>
         </div>  
       </div>

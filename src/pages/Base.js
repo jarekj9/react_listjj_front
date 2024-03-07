@@ -38,7 +38,6 @@ const BasePage = ({component: PageComponent}) => {
     };
 
     const getListjjItems = async () => {
-        const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
         const response = await api.get(`/api/item/items_by_filter?searchWords=${searchWords ?? ' '}&fromDateStr=${' '}&toDateStr=${' '}&categoryId=${categoryIdCtx}`)
             .then(({data }) => {
                 return data;
