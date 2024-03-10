@@ -6,7 +6,7 @@ const AppProvider = ({ children }) => {
   const [cookies, setCookie] = useCookies(['recentCategoryId']);
   const [usernameCtx, setUsernameCtx] = useState('');
   const [roleCtx, setRoleCtx] = useState('');
-  const [categoryIdCtx, setCategoryIdCtx] = useState(cookies.recentCategoryId);
+  const [categoryIdCtx, setCategoryIdCtx] = useState(cookies.recentCategoryId ?? "");
   const [loadingCtx, setLoadingCtx] = useState(false);
   const cookieOptions = {
     expires: new Date(Date.now() + 86400000000),
